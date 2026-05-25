@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>ChatGenius</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
+    #messages { height: 450px; overflow-y: auto; border: 1px solid #ccc; border-radius: 6px; padding: 1rem; margin-bottom: 1rem; background: #fafafa; }
+    .msg-user { color: #333; margin: 0.5rem 0; }
+    .msg-bot  { color: #0057b7; margin: 0.5rem 0; }
+    #row { display: flex; gap: 0.5rem; }
+    #input { flex: 1; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 0.5rem 1.2rem; font-size: 1rem; cursor: pointer; border-radius: 4px; border: none; background: #0057b7; color: #fff; }
+    button:disabled { opacity: 0.5; cursor: default; }
+  </style>
+</head>
+<body>
+  <h2>ChatGenius</h2>
+  <div id="messages"></div>
+  <div id="row">
+    <input id="input" type="text" placeholder="Frage stellen…" autofocus>
+    <button id="btn" onclick="send()">Senden</button>
+  </div>
+
+  <script>
+    let sessionId = null;
+
+    async function send() {
+      const input = document.getElementById("input");
+      const btn   = document.getElementById("btn");
+      const messages = document.getElementById("messages");
+      const message = input.value.trim();
+      if (!message) return;
+
+      input.value = "";
+      btn.disabled = true;
+
+      // Nutzer-Nachricht anzeigen
+      const userP = document.createElement("p");
+      userP.className = "msg-user";
+      userP.textContent = "Du: " + message;
+      messages.appendChild(userP);
+
+      // Antwort-Element vorbereiten
+      const botP = document.createElement("p");
+      botP.className = "msg-bot";
+      botP.textContent = "ChatGenius: ";
+      messages.appendChild(botP);
+      messages.scrollTop = messages.scrollHeight;
+
+      // sessionId nur mitsenden wenn vorhanden (nie null schicken)
+      const body = { message, stream: true };
+      if (sessionId) body.sessionId = sessionId;
+
+      try {
+        const res = await fetch("http://localhost:3000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          botP.textContent = "ChatGenius: [Fehler] " + (err.error ?? res.status);
+          return;
+        }
+
+        const reader  = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop(); // letzten unvollständigen Teil aufheben
+
+          for (const line of lines) {
+            if (!line.startsWith("data: ")) continue;
+            let event;
+            try { event = JSON.parse(line.slice(6)); } catch { continue; }
+
+            if (event.type === "text") {
+              botP.textContent += event.text;
+              messages.scrollTop = messages.scrollHeight;
+            }
+            if (event.type === "done" && event.sessionId) {
+              sessionId = event.sessionId;
+            }
+            if (event.type === "handoff") {
+              botP.textContent += "\n\n[Ein Mitarbeiter wird sich um dein Anliegen kümmern.]";
+            }
+          }
+        }
+      } catch (err) {
+        botP.textContent = "ChatGenius: [Verbindungsfehler] " + err.message;
+      } finally {
+        btn.disabled = false;
+        input.focus();
+      }
+    }
+
+    document.getElementById("input").addEventListener("keydown", e => {
+      if (e.key === "Enter" && !e.shiftKey) send();
+    });
+  </script>
+</body>
+</html>

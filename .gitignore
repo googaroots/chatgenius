@@ -1,0 +1,6 @@
+node_modules/
+dist/
+vector_data/
+chroma_data/
+.env
+*.log
