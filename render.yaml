@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: chatgenius
+    env: node
+    region: frankfurt
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: ANTHROPIC_API_KEY
+        sync: false   # wird manuell im Render-Dashboard gesetzt
+      - key: CHROMA_PERSIST_PATH
+        value: /opt/render/project/src/vector_data
