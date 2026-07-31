@@ -3,6 +3,10 @@
 TypeScript REST API powered by **Claude** (Anthropic) with RAG via **ChromaDB**.  
 Migrated from OpenAI GPT-4 → `claude-opus-4-7`.
 
+Der Server hostet zusätzlich **„Blind Verliebt — Österreich“** — ein Dating-Formatkonzept samt
+Website und spielbarer Pod-Demo. Siehe [Blind Verliebt — Österreich](#blind-verliebt--österreich)
+und [`docs/KONZEPT.md`](docs/KONZEPT.md).
+
 ---
 
 ## Stack
@@ -134,3 +138,61 @@ SSE event types: `text` | `handoff` | `done`.
 | `HANDOFF_API_KEY` | No | Auth token for handoff webhook |
 | `CRM_WEBHOOK_URL` | No | CRM webhook for conversation events |
 | `CRM_API_KEY` | No | Auth token for CRM webhook |
+
+---
+
+## Blind Verliebt — Österreich
+
+Ein eigenständiges Dating-Formatkonzept für Österreich, das auf demselben Server läuft:
+zuerst reden, dann verlieben, dann erst schauen. Die Website erklärt das Format nicht nur —
+sie macht es spielbar.
+
+> Eigenständiges Konzept ohne Verbindung zu bestehenden Sendern oder Streaming-Diensten.
+> Alle Kandidat:innen der Pod-Demo sind erfunden und werden von Claude gespielt.
+
+### Seiten
+
+| Pfad | Inhalt |
+|---|---|
+| `/` | Landingpage: Prinzip, Österreich-Adaption, sechs Phasen, Fürsorge-Regeln, FAQ |
+| `/konzept.html` | Ausführliches Konzept: Staffelaufbau, Casting, Produktion, Recht |
+| `/pod.html` | Pod-Demo: zehn Minuten Blind-Chat mit Verbindungsmesser, Antrag und Reveal |
+| `/bewerbung.html` | Casting-Formular mit serverseitiger Validierung |
+
+Start: `npm run dev` und dann `http://localhost:3000/` öffnen.
+Das Konzeptdokument liegt unter [`docs/KONZEPT.md`](docs/KONZEPT.md).
+
+### Pod-Endpunkte
+
+| Endpunkt | Beschreibung |
+|---|---|
+| `POST /pods` | Date starten — `{ vorname, praeferenz: "frauen"\|"maenner"\|"alle", ausschluss?: string[] }` |
+| `GET /pods/:podId` | Stand des Dates inklusive Restzeit und Verbindungswert |
+| `POST /pods/:podId/nachricht` | Nachricht senden; SSE-Events: `text`, `verbindung`, `antrag`, `pod_verlassen`, `done`, `error` |
+| `POST /pods/:podId/antrag` | `{ entscheidung: "ja"\|"nein" }` — bei Ja kommt der Reveal-Steckbrief |
+| `GET /pods/statistik/gesamt` | Aggregierte Kennzahlen der Demo |
+
+```bash
+curl -X POST localhost:3000/pods \
+  -H 'Content-Type: application/json' \
+  -d '{"vorname":"Anna","praeferenz":"maenner"}'
+```
+
+### Casting-Endpunkte
+
+| Endpunkt | Beschreibung |
+|---|---|
+| `POST /casting/bewerbung` | Bewerbung einreichen (Alter ≥ 18, Heiratsabsicht und Datenschutz Pflicht) |
+| `GET /casting/statistik` | Nur aggregierte Zahlen — keine Personendaten |
+| `GET /casting/bundeslaender` | Auswahlliste fürs Formular |
+
+### Wie die Pods funktionieren
+
+- `src/services/personas.ts` — acht erfundene Kandidat:innen mit Herkunft, Beruf, Sprachstil,
+  Werten, Dealbreakern und einem Reveal-Steckbrief.
+- `src/services/pods.ts` — Rollen-Prompt mit Prompt-Caching, Zeitlimit (10 Minuten), SSE-Streaming.
+  Claude meldet über Tools zurück: `verbindungs_update` (Gefühlslage 0–100), `antrag_stellen`
+  (ab Verbindung ≥ 82 und sechs eigenen Zügen), `pod_verlassen` (Grenzüberschreitung/Dealbreaker).
+- Aussehen, Stil und Reveal-Ort verlassen den Server erst nach einem angenommenen Antrag.
+
+Pods und Bewerbungen liegen ausschließlich im Arbeitsspeicher und sind nach einem Neustart weg.

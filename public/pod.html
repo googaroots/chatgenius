@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pod-Demo — Blind Verliebt Österreich</title>
+  <meta name="description" content="Zehn Minuten Gespräch durch eine Wand: die spielbare Pod-Demo des Formats Blind Verliebt — Österreich.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/">Blind <b>Verliebt</b> — Österreich</a>
+    <a class="link" href="/#prinzip">Prinzip</a>
+    <a class="link" href="/#ablauf">Ablauf</a>
+    <a class="link" href="/konzept.html">Konzept</a>
+    <a class="link" href="/pod.html" aria-current="page">Pod-Demo</a>
+    <a class="btn klein" href="/bewerbung.html">Bewerben</a>
+  </div>
+</nav>
+
+<section>
+  <div class="wrap">
+
+    <!-- Schritt 1: Anmeldung -->
+    <div id="setup">
+      <div class="intro">
+        <p class="eyebrow">Pod 1 · Studio Wien</p>
+        <h2>Du gehst gleich rein</h2>
+        <p class="leise gross">
+          Hinter der Wand sitzt jemand, den du nicht sehen wirst. Du hast zehn Minuten.
+          Frag, was du sonst erst beim dritten Date fragst.
+        </p>
+      </div>
+
+      <form class="formular" id="setup-form">
+        <div class="feld-paar">
+          <div class="feld">
+            <label for="vorname">Wie heißt du?</label>
+            <input id="vorname" name="vorname" type="text" maxlength="40" autocomplete="given-name" required>
+          </div>
+          <div class="feld">
+            <label for="praeferenz">Wen möchtest du kennenlernen?</label>
+            <select id="praeferenz" name="praeferenz">
+              <option value="frauen">Frauen</option>
+              <option value="maenner">Männer</option>
+              <option value="alle">Alle</option>
+            </select>
+          </div>
+        </div>
+        <p class="fehler versteckt" id="setup-fehler"></p>
+        <button class="btn" type="submit" id="setup-btn">Pod betreten</button>
+      </form>
+
+      <p class="hinweis" id="setup-hinweis">
+        Die Person hinter der Wand ist eine erfundene Rolle und wird von einem Sprachmodell gespielt.
+        Sie hat einen Beruf, ein Zuhause, Werte und Grenzen — aber kein Gesicht, solange du keinen
+        Antrag annimmst.
+      </p>
+    </div>
+
+    <!-- Schritt 2: das Date -->
+    <div id="date" class="versteckt">
+      <div class="pod-layout">
+        <div class="pod">
+          <div class="pod-kopf">
+            <div class="wand" aria-hidden="true"></div>
+            <div>
+              <div class="name" id="partner-name">—</div>
+              <div class="leise" id="partner-info">Du siehst nur diese Wand.</div>
+            </div>
+            <div class="uhr" id="uhr">10:00</div>
+          </div>
+
+          <div class="verlauf" id="verlauf"></div>
+
+          <form class="pod-eingabe" id="nachricht-form">
+            <input id="nachricht" type="text" maxlength="2000" placeholder="Sag etwas durch die Wand…" autocomplete="off">
+            <button class="btn" type="submit" id="senden-btn">Senden</button>
+          </form>
+        </div>
+
+        <aside class="seitenleiste">
+          <div class="messgeraet">
+            <h3>Verbindung</h3>
+            <div class="wert" id="verbindung-wert">20</div>
+            <div class="balken"><i id="verbindung-balken"></i></div>
+            <p id="verbindung-grund">Das Gespräch hat gerade erst begonnen.</p>
+          </div>
+
+          <div class="messgeraet versteckt" id="antrag-box">
+            <h3>Antrag</h3>
+            <p id="antrag-text"></p>
+            <p class="hero-aktionen">
+              <button class="btn klein" id="ja-btn" type="button">Ja, ich will</button>
+              <button class="btn klein geist" id="nein-btn" type="button">Nein</button>
+            </p>
+          </div>
+
+          <div class="messgeraet reveal versteckt" id="reveal-box">
+            <div class="silhouette" aria-hidden="true"></div>
+            <h3>Reveal</h3>
+            <dl id="reveal-daten"></dl>
+          </div>
+
+          <div class="messgeraet">
+            <h3>Regeln im Pod</h3>
+            <p>Keine Fotos. Keine Beschreibungen des Aussehens. Zehn Minuten. Danach entscheidest du
+              mit dem, was du gehört hast.</p>
+          </div>
+
+          <button class="btn geist klein" type="button" id="neuer-pod">Neuen Pod betreten</button>
+        </aside>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="leise">
+      Alle Kandidat:innen dieser Demo sind erfunden und werden von einem Sprachmodell gespielt.
+      Gesprächsverläufe werden nur im Arbeitsspeicher des Servers gehalten und beim Neustart gelöscht.
+    </p>
+  </div>
+</footer>
+
+<script src="/assets/pod.js"></script>
+</body>
+</html>

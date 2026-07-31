@@ -8,6 +8,8 @@ import { config } from "./config";
 import { chatRouter } from "./routes/chat";
 import { knowledgeRouter } from "./routes/knowledge";
 import { analyticsRouter } from "./routes/analytics";
+import { podsRouter } from "./routes/pods";
+import { castingRouter } from "./routes/casting";
 import { requestLogger } from "./middleware/analytics";
 
 const app = express();
@@ -24,10 +26,15 @@ app.use(requestLogger);
 // Widget-Datei öffentlich bereitstellen
 app.use("/widget.js", express.static(path.join(__dirname, "..", "public", "widget.js")));
 
+// Website "Blind Verliebt — Österreich" (statische Seiten + Assets)
+app.use(express.static(path.join(__dirname, "..", "public")));
+
 // Routes
 app.use("/chat", chatRouter);
 app.use("/knowledge", knowledgeRouter);
 app.use("/analytics", analyticsRouter);
+app.use("/pods", podsRouter);
+app.use("/casting", castingRouter);
 
 // Health check
 app.get("/health", (_req, res) => {

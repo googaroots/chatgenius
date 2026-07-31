@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Casting — Blind Verliebt Österreich</title>
+  <meta name="description" content="Bewirb dich für die erste Staffel von Blind Verliebt — Österreich.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/">Blind <b>Verliebt</b> — Österreich</a>
+    <a class="link" href="/#prinzip">Prinzip</a>
+    <a class="link" href="/#ablauf">Ablauf</a>
+    <a class="link" href="/konzept.html">Konzept</a>
+    <a class="link" href="/pod.html">Pod-Demo</a>
+    <a class="btn klein" href="/bewerbung.html" aria-current="page">Bewerben</a>
+  </div>
+</nav>
+
+<section>
+  <div class="wrap">
+    <div class="intro">
+      <p class="eyebrow">Casting Staffel 1</p>
+      <h2>Bewirb dich</h2>
+      <p class="leise gross">
+        Zehn Minuten Formular, danach ein Videocall mit dem Casting-Team. Bitte antworte ehrlich —
+        die Auswahl entscheidet sich an den Antworten, nicht an der Formulierung.
+      </p>
+    </div>
+
+    <form class="formular" id="bewerbung-form">
+      <div class="feld-paar">
+        <div class="feld">
+          <label for="vorname">Vorname</label>
+          <input id="vorname" name="vorname" type="text" required maxlength="40" autocomplete="given-name">
+        </div>
+        <div class="feld">
+          <label for="nachname">Nachname</label>
+          <input id="nachname" name="nachname" type="text" required maxlength="60" autocomplete="family-name">
+        </div>
+      </div>
+
+      <div class="feld-paar">
+        <div class="feld">
+          <label for="email">E-Mail</label>
+          <input id="email" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="feld">
+          <label for="alter">Alter</label>
+          <input id="alter" name="alter" type="number" min="18" max="99" required>
+        </div>
+      </div>
+
+      <div class="feld-paar">
+        <div class="feld">
+          <label for="bundesland">Bundesland</label>
+          <select id="bundesland" name="bundesland"></select>
+        </div>
+        <div class="feld">
+          <label for="sucht">Du möchtest kennenlernen</label>
+          <select id="sucht" name="sucht">
+            <option value="frauen">Frauen</option>
+            <option value="maenner">Männer</option>
+            <option value="alle">Alle</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="feld">
+        <label for="beruf">Was arbeitest du?</label>
+        <input id="beruf" name="beruf" type="text" required maxlength="120">
+      </div>
+
+      <div class="feld">
+        <label for="motivation">Warum willst du dich blind entscheiden? (mindestens 40 Zeichen)</label>
+        <textarea id="motivation" name="motivation" required minlength="40" maxlength="2000"></textarea>
+      </div>
+
+      <div class="feld">
+        <label for="dealbreaker">Was wäre für dich ein Dealbreaker? (optional)</label>
+        <textarea id="dealbreaker" name="dealbreaker" maxlength="500"></textarea>
+      </div>
+
+      <div class="checkbox">
+        <input id="bereitFuerHochzeit" name="bereitFuerHochzeit" type="checkbox">
+        <label for="bereitFuerHochzeit">
+          Ich bin bereit, am Ende der Staffel ernsthaft vor dem Standesamt zu stehen — mit einem Ja
+          oder einem Nein.
+        </label>
+      </div>
+
+      <div class="checkbox">
+        <input id="datenschutz" name="datenschutz" type="checkbox">
+        <label for="datenschutz">
+          Ich stimme zu, dass meine Angaben für das Casting verarbeitet und danach gelöscht werden,
+          wenn ich nicht teilnehme.
+        </label>
+      </div>
+
+      <p class="fehler versteckt" id="fehler"></p>
+      <button class="btn" type="submit" id="absenden">Bewerbung abschicken</button>
+    </form>
+
+    <div class="erfolg versteckt" id="erfolg">
+      <h3 id="erfolg-titel">Bewerbung eingegangen</h3>
+      <p id="erfolg-text"></p>
+      <p class="leise" id="erfolg-id"></p>
+    </div>
+
+    <p class="hinweis">
+      Prototyp-Hinweis: Diese Website ist ein Konzept- und Technikprototyp. Bewerbungen werden nur im
+      Arbeitsspeicher des Servers gehalten, nicht dauerhaft gespeichert und an niemanden weitergeleitet.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="zeilen">
+      <a href="/">Start</a>
+      <a href="/konzept.html">Konzept</a>
+      <a href="/pod.html">Pod-Demo</a>
+    </div>
+    <p class="leise">„Blind Verliebt — Österreich“ ist ein eigenständiges Formatkonzept ohne Verbindung zu bestehenden Sendern oder Streaming-Diensten.</p>
+  </div>
+</footer>
+
+<script src="/assets/bewerbung.js"></script>
+</body>
+</html>
