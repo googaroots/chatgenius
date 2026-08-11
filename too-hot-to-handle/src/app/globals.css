@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bebas Neue", "Impact", system-ui, sans-serif;
+  --color-heat-50: #fff1f2;
+  --color-heat-300: #fda4af;
+  --color-heat-400: #fb7185;
+  --color-heat-500: #f43f5e;
+  --color-heat-600: #e11d48;
+  --color-night-900: #0a0612;
+  --color-night-800: #140a20;
+  --color-night-700: #1e0f2e;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-night-900);
+  color: #f5f3ff;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sonnenuntergangs-Glow im Hintergrund */
+.thth-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60rem 40rem at 15% -10%, rgba(244, 63, 94, 0.28), transparent 60%),
+    radial-gradient(50rem 36rem at 90% 0%, rgba(168, 85, 247, 0.26), transparent 60%),
+    radial-gradient(70rem 50rem at 50% 110%, rgba(251, 146, 60, 0.18), transparent 65%),
+    linear-gradient(180deg, #0a0612 0%, #150b22 55%, #0a0612 100%);
+}
+
+.thth-grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* Lanas pulsierendes Auge */
+@keyframes lana-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.14); }
+}
+.lana-eye {
+  animation: lana-pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise-in {
+  animation: rise-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes shake-money {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+.shake-money {
+  animation: shake-money 0.5s ease-in-out 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lana-eye,
+  .rise-in,
+  .shake-money {
+    animation: none !important;
+  }
+}
