@@ -12,6 +12,26 @@ import { requestLogger } from "./middleware/analytics";
 
 const app = express();
 
+// Trainings-App (statisch, eigene CSP für Google Fonts) — vor dem globalen helmet,
+// damit express.static die Antwort mit den passenden Headern abschließt.
+app.use(
+  "/trainer",
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'"],
+        objectSrc: ["'none'"],
+      },
+    },
+  }),
+  express.static(path.join(__dirname, "..", "public", "trainer"))
+);
+
 // Security & parsing
 app.use(helmet());
 app.use(cors());
@@ -41,6 +61,7 @@ app.use((_req, res) => {
 
 app.listen(config.server.port, () => {
   console.log(`ChatGenius API running on http://localhost:${config.server.port}`);
+  console.log(`Trainings-App: http://localhost:${config.server.port}/trainer/`);
   console.log(`Model: ${config.anthropic.model}`);
   console.log(`Vector index: ${config.chroma.persistPath}`);
 });

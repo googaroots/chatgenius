@@ -134,3 +134,39 @@ SSE event types: `text` | `handoff` | `done`.
 | `HANDOFF_API_KEY` | No | Auth token for handoff webhook |
 | `CRM_WEBHOOK_URL` | No | CRM webhook for conversation events |
 | `CRM_API_KEY` | No | Auth token for CRM webhook |
+
+---
+
+## Trainings-App `/trainer`
+
+Statische Web-App für den **Technogym HIT 5er-Split** (High Intensity Training,
+Mo / Mi / Fr / Sa / So). Läuft ohne Build-Schritt und ohne Backend — die App wird
+vom Express-Server unter `/trainer/` ausgeliefert und kann alternativ direkt als
+`public/trainer/index.html` im Browser geöffnet werden.
+
+```bash
+npm run dev            # danach: http://localhost:3000/trainer/
+```
+
+| Datei | Inhalt |
+|---|---|
+| `public/trainer/plan.js` | Plandaten: 5 Trainingstage, 20 Technogym-Übungen, Satz-Rampe |
+| `public/trainer/app.js` | Logik: Sitzung, Gewichtsberechnung, Progression, Pausen-Timer, Verlauf |
+| `public/trainer/app.css` | Design-Tokens, dunkles und helles Theme |
+| `public/trainer/index.html` | Grundgerüst und Tab-Navigation |
+
+**Was die App macht**
+
+- **Heute** — zeigt anhand des Wochentags die fällige Einheit (Di/Do: Pausentag mit
+  Vorschau auf das nächste Training).
+- **Aufwärmsätze rechnen sich selbst** — ein eingetragenes Top-Set-Gewicht ergibt die
+  Rampe 50 % / 70 % / 85 % / 100 %, gerundet auf den Gewichtssprung des Geräts
+  (2,5 kg, bei Leg Press und Calf 5 kg).
+- **Progression nach HIT-Logik** — 8+ Wdh. im Top-Set → nächstes Mal ein Sprung mehr,
+  6–7 Wdh. → Gewicht halten, unter 6 → 10 % zurück.
+- **Pausen-Timer** — startet automatisch beim Abhaken eines Satzes
+  (60 s / 90 s / 2,5 Min vor dem Top-Set / 3 Min zum Übungswechsel).
+- **Verlauf** — Top-Set je Übung, Bestwerte, bewegte Last, Export/Import als JSON.
+
+Alle Daten liegen ausschließlich im `localStorage` des Browsers; die App sendet nichts
+an den Server. Ein laufendes Training übersteht einen Reload.
