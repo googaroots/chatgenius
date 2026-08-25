@@ -189,7 +189,8 @@ Pushdown (Maeo et al. 2023), Wadenheben stehend statt sitzend (Kinoshita et al. 
 Preacher- und Kabel-Curl für verschiedene Bizeps-Abschnitte (Kassiano et al. 2025),
 Schrägdrücken für die obere Brust (Chaves et al. 2020).
 
-Jede Übung trägt eine Begründung und eine Ersatzübung, falls das Gerät besetzt ist.
+Jede der 24 Übungen trägt eine Begründung und eine Ersatzübung, falls das Gerät
+besetzt ist — sichtbar im Plan-Tab und während der laufenden Einheit.
 
 Alle Daten liegen ausschließlich im `localStorage` des Browsers; die App sendet nichts
 an den Server. Ältere gespeicherte Stände werden beim Laden migriert, Gewichte und

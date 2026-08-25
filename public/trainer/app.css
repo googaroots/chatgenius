@@ -256,6 +256,8 @@ button { cursor: pointer; }
   border-radius: var(--r-md); padding: 10px 12px; border: 1px solid var(--line);
 }
 .hintbox b { color: var(--text); font-weight: 600; }
+.hintbox span { display: block; }
+.hintbox .alt-line { margin-top: 7px; padding-top: 7px; border-top: 1px solid var(--line); }
 .verdict { font-size: 13px; padding: 10px 12px; border-radius: var(--r-md); border: 1px solid var(--line); }
 .verdict.up { color: var(--done); border-color: color-mix(in srgb, var(--done) 40%, transparent); }
 .verdict.hold { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }

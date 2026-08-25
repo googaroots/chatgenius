@@ -500,7 +500,10 @@
               </div>
               <div class="verdict ${verdictFor(dayEx, entry).kind} grow-min">${esc(verdictFor(dayEx, entry).text)}</div>
             </div>` : ""}
-          <div class="hintbox"><b>Einstellung:</b> ${esc(ex.tip)}</div>
+          <div class="hintbox">
+            <span><b>Einstellung:</b> ${esc(ex.tip)}</span>
+            ${ex.alt ? `<span class="alt-line"><b>Gerät besetzt?</b> ${esc(ex.alt)}</span>` : ""}
+          </div>
         </div>
       </article>`;
   }

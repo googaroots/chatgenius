@@ -37,7 +37,8 @@ const EXERCISES = {
     primary: "brust", secondary: ["trizeps", "schultern"], compound: true,
     step: 2.5,
     tip: "Sitzhöhe so, dass die Griffe auf Höhe der unteren Brust liegen. Schulterblätter fest an die Lehne.",
-    why: "Geführter Druck mit voller Last — der beste Reiz für Brustmasse ohne Spotter."
+    why: "Geführter Druck mit voller Last — der beste Reiz für Brustmasse ohne Spotter.",
+    alt: "Multipower-Bankdrücken oder Kurzhantel-Drücken auf der Flachbank; am Kinesis auch als Kabeldrücken möglich."
   },
   "incline-chest-press": {
     name: "Incline Chest Press",
@@ -46,7 +47,8 @@ const EXERCISES = {
     primary: "brust", secondary: ["schultern", "trizeps"], compound: true,
     step: 2.5,
     tip: "Ellbogen ca. 45° zum Körper, am Ende nicht komplett durchstrecken.",
-    why: "Zweiter Winkel in der Woche — trifft die Fasern, die die flache Presse auslässt."
+    why: "Zweiter Winkel in der Woche — trifft die Fasern, die die flache Presse auslässt.",
+    alt: "Schrägbank mit Kurzhanteln oder Multipower bei rund 30° — flacher Winkel trifft die obere Brust nicht mehr."
   },
   "pectoral-fly": {
     name: "Pectoral Machine / Cable Fly",
@@ -55,7 +57,8 @@ const EXERCISES = {
     primary: "brust", secondary: [], compound: false,
     step: 2.5,
     tip: "Ellbogen leicht gebeugt fixieren, in der Dehnung kurz halten.",
-    why: "Belastung im gedehnten Bereich — dort wächst der Muskel besonders gut."
+    why: "Belastung im gedehnten Bereich — dort wächst der Muskel besonders gut.",
+    alt: "Kabel-Fly am Dual Adjustable Pulley, Griffe auf Brusthöhe, leicht vorgebeugt."
   },
   "triceps-press": {
     name: "Triceps Press / Dip Machine",
@@ -64,7 +67,8 @@ const EXERCISES = {
     primary: "trizeps", secondary: ["brust"], compound: true,
     step: 2.5,
     tip: "Oberkörper aufrecht, Ellbogen dicht am Rumpf führen.",
-    why: "Mehrgelenkig — erlaubt mehr Last als jede Isolationsübung."
+    why: "Mehrgelenkig — erlaubt mehr Last als jede Isolationsübung.",
+    alt: "Dips am Barren (bei Bedarf mit Unterstützung) oder enges Drücken an der Multipower."
   },
   "triceps-pushdown": {
     name: "Cable Triceps Pushdown",
@@ -73,7 +77,8 @@ const EXERCISES = {
     primary: "trizeps", secondary: [], compound: false,
     step: 2.5,
     tip: "Ellbogen am Rumpf fixiert, unten voll durchstrecken und 1 Sekunde halten.",
-    why: "Kabelzug hält die Spannung über den kompletten Bewegungsweg."
+    why: "Kabelzug hält die Spannung über den kompletten Bewegungsweg.",
+    alt: "Besser: Trizeps-Strecken über Kopf am Kabel — gleicher Aufwand, stärkerer Reiz."
   },
 
   "leg-press": {
@@ -83,7 +88,8 @@ const EXERCISES = {
     primary: "quads", secondary: ["huefte", "hamstrings"], compound: true,
     step: 5,
     tip: "Füße schulterbreit mittig, Knie in Fußrichtung, unterer Rücken bleibt am Polster.",
-    why: "Schwere Beinlast ohne Stauchung der Wirbelsäule — die Basis beider Beintage."
+    why: "Schwere Beinlast ohne Stauchung der Wirbelsäule — die Basis beider Beintage.",
+    alt: "Kniebeuge an der Multipower oder Hackenschmidt-Maschine, wenn vorhanden."
   },
   "leg-press-high": {
     name: "Leg Press (Füße hoch)",
@@ -92,7 +98,8 @@ const EXERCISES = {
     primary: "huefte", secondary: ["hamstrings", "quads"], compound: true,
     step: 5,
     tip: "Füße höher und etwas breiter aufsetzen, tief herunterlassen — Hüfte macht die Arbeit.",
-    why: "Gleiches Gerät, anderer Winkel: verschiebt die Last auf Gesäß und Hamstrings."
+    why: "Gleiches Gerät, anderer Winkel: verschiebt die Last auf Gesäß und Hamstrings.",
+    alt: "Hip Thrust an der Multipower oder eine zusätzliche Runde an der Glute Machine."
   },
   "leg-extension": {
     name: "Leg Extension",
@@ -101,7 +108,8 @@ const EXERCISES = {
     primary: "quads", secondary: [], compound: false,
     step: 2.5,
     tip: "Drehachse auf Kniehöhe einstellen, oben kurz halten, langsam ablassen.",
-    why: "Die einzige Übung, die den geraden Oberschenkelmuskel voll trifft."
+    why: "Die einzige Übung, die den geraden Oberschenkelmuskel voll trifft.",
+    alt: "Schwer zu ersetzen — notfalls Sissy Squat am Rack; Beinpressen treffen diesen Muskel kaum."
   },
   "seated-leg-curl": {
     name: "Seated Leg Curl",
@@ -120,7 +128,8 @@ const EXERCISES = {
     primary: "hamstrings", secondary: ["waden"], compound: false,
     step: 2.5,
     tip: "Hüfte bleibt am Polster, kein Hohlkreuz — sonst übernimmt der Rücken.",
-    why: "Ausweichübung: gestreckte Hüfte trifft den kurzen Bizepskopf, bringt aber weniger Gesamtwachstum als der sitzende Curl."
+    why: "Ausweichübung: gestreckte Hüfte trifft den kurzen Bizepskopf, bringt aber weniger Gesamtwachstum als der sitzende Curl.",
+    alt: "Besser: sitzender Leg Curl, sobald das Gerät frei ist."
   },
   "glute": {
     name: "Glute Machine",
@@ -129,7 +138,8 @@ const EXERCISES = {
     primary: "huefte", secondary: ["hamstrings"], compound: false,
     step: 5,
     tip: "Standbein leicht gebeugt, Bewegung nur aus der Hüfte — oben 1 Sekunde halten, kein Hohlkreuz.",
-    why: "Die einzige Übung im Plan, die das Gesäß direkt und in voller Streckung belastet."
+    why: "Die einzige Übung im Plan, die das Gesäß direkt und in voller Streckung belastet.",
+    alt: "Hip Thrust an der Multipower oder Kabel-Hüftstreckung am Kinesis mit Fußschlaufe."
   },
   "overhead-triceps": {
     name: "Trizeps-Strecken über Kopf (Kabel)",
@@ -158,7 +168,8 @@ const EXERCISES = {
     primary: "huefte", secondary: [], compound: false,
     step: 2.5,
     tip: "Beide Geräte im Wechsel: erst Abductor (außen), dann Adductor (innen).",
-    why: "Hält die Hüfte stabil und die Knie gesund, wenn die Leg Press schwerer wird."
+    why: "Hält die Hüfte stabil und die Knie gesund, wenn die Leg Press schwerer wird.",
+    alt: "Kabel-Abduktion am Kinesis mit Fußschlaufe, im Stehen, je Seite."
   },
   "calf": {
     name: "Wadenheben stehend",
@@ -178,7 +189,8 @@ const EXERCISES = {
     primary: "ruecken", secondary: ["bizeps"], compound: true,
     step: 2.5,
     tip: "Brust raus, zum Schlüsselbein ziehen, Ellbogen nach unten-hinten denken.",
-    why: "Vertikaler Zug für die Breite — das Gegenstück zum Drücken."
+    why: "Vertikaler Zug für die Breite — das Gegenstück zum Drücken.",
+    alt: "Lat Machine mit weitem Griff oder unterstützte Klimmzüge an der Assisted-Station."
   },
   "low-row": {
     name: "Low Row / Cable Row",
@@ -187,7 +199,8 @@ const EXERCISES = {
     primary: "ruecken", secondary: ["bizeps", "schultern"], compound: true,
     step: 2.5,
     tip: "Brust am Polster, Schulterblätter zuerst zusammenziehen, dann Ellbogen nach hinten.",
-    why: "Horizontaler Zug für die Dichte — die Bruststütze verhindert Schwungholen."
+    why: "Horizontaler Zug für die Dichte — die Bruststütze verhindert Schwungholen.",
+    alt: "Kabelrudern am Bodenzug oder einarmiges Hantelrudern mit Bankauflage."
   },
   "pullover": {
     name: "Pullover Machine (oder Kabel)",
@@ -196,7 +209,8 @@ const EXERCISES = {
     primary: "ruecken", secondary: [], compound: false,
     step: 2.5,
     tip: "Arme fast gestreckt, Bewegung nur aus der Schulter — Bizeps bleibt außen vor.",
-    why: "Lat-Reiz ohne Armbeuger als Schwachstelle."
+    why: "Lat-Reiz ohne Armbeuger als Schwachstelle.",
+    alt: "Straight-Arm Pulldown am Kabelturm — gleiche Bewegung, nur frei geführt."
   },
   "shoulder-press": {
     name: "Shoulder Press",
@@ -205,7 +219,8 @@ const EXERCISES = {
     primary: "schultern", secondary: ["trizeps"], compound: true,
     step: 2.5,
     tip: "Sitzhöhe so, dass die Griffe auf Schulterhöhe starten. Rippen unten lassen.",
-    why: "Geführter Überkopfdruck — schwere Last ohne Ausweichbewegung."
+    why: "Geführter Überkopfdruck — schwere Last ohne Ausweichbewegung.",
+    alt: "Kurzhantel-Schulterdrücken sitzend oder Multipower-Drücken vor dem Kopf."
   },
   "lateral-raise": {
     name: "Delts Machine / Lateral Raise",
@@ -214,7 +229,8 @@ const EXERCISES = {
     primary: "schultern", secondary: [], compound: false,
     step: 2.5,
     tip: "Bis Schulterhöhe, kleiner Finger leicht führend, langsam zurück.",
-    why: "Die seitliche Schulter wächst fast nur über hohe Wiederholungszahlen."
+    why: "Die seitliche Schulter wächst fast nur über hohe Wiederholungszahlen.",
+    alt: "Kurzhantel-Seitheben oder Kabel-Seitheben mit dem Arm hinter dem Körper (etwas stärkerer Dehnreiz)."
   },
   "rear-delt": {
     name: "Rear Deltoid / Reverse Fly",
@@ -223,7 +239,8 @@ const EXERCISES = {
     primary: "schultern", secondary: ["ruecken"], compound: false,
     step: 2.5,
     tip: "Leichter starten als gedacht — sauber ohne Trapez-Zucken.",
-    why: "Gegenspieler zum vielen Drücken, hält die Schulter gesund."
+    why: "Gegenspieler zum vielen Drücken, hält die Schulter gesund.",
+    alt: "Face Pull am Dual Adjustable Pulley oder vorgebeugtes Kurzhantel-Seitheben."
   },
   "arm-curl": {
     name: "Arm Curl Machine",
@@ -232,7 +249,8 @@ const EXERCISES = {
     primary: "bizeps", secondary: [], compound: false,
     step: 2.5,
     tip: "Oberarme liegen komplett auf dem Polster, unten nicht ganz ablegen.",
-    why: "Feste Oberarmauflage macht Schwungholen unmöglich."
+    why: "Feste Oberarmauflage macht Schwungholen unmöglich.",
+    alt: "Kurzhantel-Curl auf der Schrägbank oder Kabel-Curl im Stehen."
   },
 
   "abdominal-crunch": {
@@ -242,7 +260,8 @@ const EXERCISES = {
     primary: "bauch", secondary: [], compound: false,
     step: 2.5,
     tip: "Bewegung aus der Bauchmuskulatur, nicht aus den Armen. Ausatmen beim Einrollen.",
-    why: "Der Bauch reagiert auf progressive Last wie jeder andere Muskel."
+    why: "Der Bauch reagiert auf progressive Last wie jeder andere Muskel.",
+    alt: "Kabel-Crunch am Kinesis, kniend, Seil hinter dem Kopf."
   },
   "rotary-torso": {
     name: "Rotary Torso / Cable Woodchopper",
@@ -251,7 +270,8 @@ const EXERCISES = {
     primary: "bauch", secondary: [], compound: false,
     step: 2.5,
     tip: "Rotation aus dem Rumpf, Becken bleibt fixiert. Beide Seiten gleich viele Wdh.",
-    why: "Deckt die Rotation ab, die Crunches auslassen."
+    why: "Deckt die Rotation ab, die Crunches auslassen.",
+    alt: "Woodchopper am Dual Adjustable Pulley oder Pallof Press gegen den Zug."
   }
 };
 
@@ -337,7 +357,8 @@ const EVIDENCE = [
   {
     claim: "2–3 Arbeitssätze je Übung statt einem",
     detail: "Mehrsatz-Training zeigt rund 40 % größere Effektstärken beim Muskelwachstum (0,24 bei 1 Satz → 0,34 bei 2–3 → 0,44 bei 4–6).",
-    source: "Krieger, J Strength Cond Res 2010"
+    source: "Krieger, J Strength Cond Res 2010",
+    alt: "Woodchopper am Dual Adjustable Pulley oder Pallof Press gegen den Zug."
   },
   {
     claim: "10–20 harte Sätze je Muskel und Woche",
