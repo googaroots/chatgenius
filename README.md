@@ -150,7 +150,7 @@ npm run dev            # danach: http://localhost:3000/trainer/
 
 | Datei | Inhalt |
 |---|---|
-| `public/trainer/plan.js` | Programm, 24 Technogym-Übungen mit Muskelzuordnung, Begründung, Ersatzübung, Belege |
+| `public/trainer/plan.js` | Programm, 27 Übungen (Technogym-Geräte plus Langhantel/Kurzhantel) mit Muskelzuordnung, Begründung, Ersatzübung, Belege |
 | `public/trainer/art.js` | Piktogramme aller Übungen als SVG (eigene Zeichnungen, kein fremdes Bildmaterial) |
 | `public/trainer/app.js` | Logik: Sitzung, Gewichtsberechnung, Progression, Volumenrechnung, Timer, Verlauf |
 | `public/trainer/app.css` | Design-Tokens, dunkles und helles Theme |
@@ -158,7 +158,9 @@ npm run dev            # danach: http://localhost:3000/trainer/
 
 **Das Programm** — Oberkörper/Unterkörper an vier Tagen (Mo / Di / Do / Fr), jede
 Muskelgruppe zweimal pro Woche, 2–3 Arbeitssätze je Übung im Bereich 6–15
-Wiederholungen mit 1–2 Wiederholungen in Reserve. Ergibt 7–14 harte Sätze je Muskel
+Wiederholungen mit 1–2 Wiederholungen in Reserve. Überwiegend Technogym-Geräte;
+freie Gewichte dort, wo die Vergleichsstudien genau diese Variante geprüft haben
+(rumänisches Kreuzheben, Hip Thrust, Schrägbank-Curl). Ergibt 7–14 harte Sätze je Muskel
 und Woche und liegt damit im Korridor, für den die Volumen-Meta-Analysen den größten
 Zuwachs zeigen.
 
@@ -187,7 +189,10 @@ Der Plan-Tab führt die Belege auf — zur Programm-Struktur (Krieger 2010, Pell
 sitzender statt liegender Beinbeuger (Maeo et al. 2021), Trizeps über Kopf statt
 Pushdown (Maeo et al. 2023), Wadenheben stehend statt sitzend (Kinoshita et al. 2023),
 Preacher- und Kabel-Curl für verschiedene Bizeps-Abschnitte (Kassiano et al. 2025),
-Schrägdrücken für die obere Brust (Chaves et al. 2020).
+Schrägdrücken für die obere Brust (Chaves et al. 2020), Hip Thrust als
+Gesäßübung erster Wahl (Krause Neto et al. 2025). Maschine oder freies Gewicht macht
+für den Muskelaufbau keinen bedeutsamen Unterschied (Haugen et al. 2023) — die Wahl
+fällt daher je Übung auf die Variante mit der besseren Studienlage.
 
 Jede der 24 Übungen trägt eine Begründung und eine Ersatzübung, falls das Gerät
 besetzt ist — sichtbar im Plan-Tab und während der laufenden Einheit.

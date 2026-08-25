@@ -161,6 +161,36 @@ const EXERCISES = {
     why: "Schulter in Streckung dehnt den zweigelenkigen Bizeps — wächst dort oben stärker, während die Arm-Curl-Maschine eher den unteren Teil trifft (Kassiano et al. 2025).",
     alt: "Alternativ Kurzhantel-Curl auf der Schrägbank."
   },
+  "romanian-deadlift": {
+    name: "Rumänisches Kreuzheben",
+    machine: "Langhantel oder Kurzhanteln",
+    target: "Beinrückseite, Gesäß, Rückenstrecker",
+    primary: "hamstrings", secondary: ["huefte", "ruecken"], compound: true,
+    step: 5,
+    tip: "Hüfte nach hinten schieben, Rücken gerade, Hantel dicht am Bein. Runter nur so weit, wie die Beinrückseite die Spannung hält.",
+    why: "Die einzige Hüftbeuge im Plan — belastet Beinrückseite und Gesäß in voller Dehnung und trainiert nebenbei die Rückenstrecker, die an Maschinen sonst leer ausgehen.",
+    alt: "Beinbeuger-Maschine plus Hyperextension, wenn die Technik am Ende der Woche nicht mehr sitzt."
+  },
+  "hip-thrust": {
+    name: "Hip Thrust (Langhantel)",
+    machine: "Langhantel & Bank (oder Glute Machine)",
+    target: "Gesäßmuskulatur",
+    primary: "huefte", secondary: ["hamstrings"], compound: true,
+    step: 5,
+    tip: "Schulterblätter auf der Bank, Kinn zur Brust, oben die Hüfte voll strecken und 1 Sekunde halten.",
+    why: "In der Übersichtsarbeit zum Gesäßmuskel die Übung mit der klarsten Empfehlung — maximale Last genau dort, wo der Muskel am kürzesten arbeitet (Krause Neto et al. 2025).",
+    alt: "Glute Machine oder Kabel-Hüftstreckung am Kinesis, wenn keine Bank frei ist."
+  },
+  "incline-db-curl": {
+    name: "Schrägbank-Curl (Kurzhanteln)",
+    machine: "Schrägbank 45–60° & Kurzhanteln",
+    target: "Bizeps in gedehnter Position",
+    primary: "bizeps", secondary: [], compound: false,
+    step: 2.5,
+    tip: "Rücken flach an die Lehne, Oberarme hängen senkrecht nach unten hinter der Körperlinie, unten voll ausstrecken.",
+    why: "Genau die Übung aus dem Vergleich mit dem Preacher-Curl: die Schrägbank-Variante ließ den oberen Teil des Bizeps stärker wachsen, die Maschine den unteren (Kassiano et al. 2025).",
+    alt: "Kabel-Curl mit dem Arm hinter dem Körper — gleicher Dehnreiz am Kinesis."
+  },
   "abductor-adductor": {
     name: "Abductor / Adductor",
     machine: "Selection",
@@ -322,7 +352,7 @@ const PROGRAM = {
         { id: "rear-delt",           sets: 3, min: 12, max: 15 },
         { id: "pectoral-fly",        sets: 2, min: 12, max: 15 },
         { id: "triceps-press",       sets: 2, min: 10, max: 12 },
-        { id: "cable-curl-behind",   sets: 2, min: 10, max: 15 }
+        { id: "incline-db-curl",     sets: 2, min: 10, max: 15 }
       ]
     },
     {
@@ -332,8 +362,8 @@ const PROGRAM = {
       logic: "Zweite Bein-Einheit, danach zwei Tage Pause",
       exercises: [
         { id: "seated-leg-curl",    sets: 3, min: 8,  max: 12, ramp: true },
-        { id: "leg-press-high",     sets: 3, min: 10, max: 15, ramp: true },
-        { id: "glute",              sets: 2, min: 10, max: 15 },
+        { id: "romanian-deadlift",  sets: 3, min: 8,  max: 12, ramp: true },
+        { id: "hip-thrust",         sets: 3, min: 8,  max: 12 },
         { id: "abductor-adductor",  sets: 2, min: 12, max: 15 },
         { id: "calf",               sets: 4, min: 10, max: 15 },
         { id: "leg-extension",      sets: 2, min: 12, max: 15 },
@@ -374,6 +404,11 @@ const EVIDENCE = [
     claim: "Jede Muskelgruppe zweimal pro Woche",
     detail: "Bei gleichem Wochenvolumen ist die Aufteilung fast egal — über zwei Einheiten bekommst du die Sätze aber leichter unter und trainierst jeden Satz frischer.",
     source: "Schoenfeld et al. 2019"
+  },
+  {
+    claim: "Maschine oder Hantel ist für den Muskel egal",
+    detail: "13 Studien mit gut 1.000 Personen: kein bedeutsamer Unterschied im Muskelaufbau. Kraft steigt dort am meisten, wo man übt — freie Übungen machen in freien Tests stärker. Entscheidend ist die Übung, nicht das Material.",
+    source: "Haugen et al., BMC Sports Sci Med Rehabil 2023"
   },
   {
     claim: "Übungen in gedehnter Position bevorzugen",

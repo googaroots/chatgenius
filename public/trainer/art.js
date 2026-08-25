@@ -400,5 +400,55 @@
     tip(60, 41, 330)
   ].join(""));
 
+  /* ------------------------------------------------------- Freie Gewichte */
+
+  /** Langhantel: Stange mit zwei Scheiben. */
+  const barbell = (x, y, half, r) => {
+    half = half || 16; r = r || 8;
+    return path("f", `M${x - half} ${y}h${half * 2}`) +
+      `<circle class="p" cx="${x - half}" cy="${y}" r="${r}"/><circle class="p" cx="${x + half}" cy="${y}" r="${r}"/>`;
+  };
+  /** Kurzhantel: kurze Stange mit kleinen Scheiben. */
+  const dumbbell = (x, y) => barbell(x, y, 7, 4.5);
+  /** Gepolsterte Hantel quer über der Hüfte. */
+  const hipBar = (x, y) => rect("p", x - 15, y - 5, 30, 10, 4) + path("f", `M${x - 15} ${y}h30`);
+
+  ART["romanian-deadlift"] = svg([
+    floor(8, 112),
+    head(38, 30),
+    path("b", "M44 34L72 46"),                 // Rumpf vorgebeugt
+    path("b", "M72 46L78 64L76 84"),           // Bein leicht gebeugt
+    path("b", "M46 37L50 60"),                 // Arm hängt senkrecht
+    barbell(50, 64, 15, 7),
+    move("M90 42Q100 52 92 62"),
+    tip(90, 64, 120)
+  ].join(""));
+
+  ART["hip-thrust"] = svg([
+    floor(8, 112),
+    rect("p", 12, 42, 30, 7),                  // Bank
+    path("f", "M18 49v20M38 49v20"),
+    head(22, 34),
+    path("b", "M28 39L60 48"),                 // Schultern auf der Bank, Hüfte oben
+    path("b", "M60 48L82 58L84 82"),           // Knie und Fuß
+    hipBar(62, 46),
+    move("M78 38V24"),
+    tip(78, 22, -90)
+  ].join(""));
+
+  ART["incline-db-curl"] = svg([
+    floor(8, 112),
+    `<g transform="rotate(-32 74 56)">${rect("p", 68, 22, 10, 40, 3)}</g>`,
+    rect("p", 60, 62, 26, 7),
+    path("f", "M66 69v15M82 69v15"),
+    head(58, 26),
+    path("b", "M62 32L78 56"),                 // Rumpf zurückgelehnt
+    path("b", "M78 56L60 66L54 82"),
+    path("b", "M63 36L54 52L50 64"),           // Arm hängt hinter der Körperlinie
+    dumbbell(50, 68),
+    move("M38 66Q34 46 52 40"),
+    tip(54, 39, 330)
+  ].join(""));
+
   window.TG_ART = ART;
 })();
