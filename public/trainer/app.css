@@ -215,8 +215,6 @@ button { cursor: pointer; }
   padding: 10px 12px 10px 0; overflow: hidden;
 }
 .set .bar { grid-area: bar; align-self: stretch; background: var(--ramp-1); border-radius: 4px 0 0 4px; margin: -10px 0; }
-.set[data-set="2"] .bar { background: var(--ramp-2); }
-.set[data-set="3"] .bar { background: var(--ramp-3); }
 .set-label { grid-area: label; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .set-label b { font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .set-label span { font-size: 12px; color: var(--muted); }
@@ -232,11 +230,21 @@ button { cursor: pointer; }
 .set.done .set-check { background: var(--done); border-color: var(--done); color: #fff; }
 .set.done .set-label b { color: var(--done); }
 
-.set.top { background: var(--hot-soft); border-color: color-mix(in srgb, var(--hot) 45%, transparent); padding-bottom: 12px; padding-top: 12px; }
-.set.top .bar { background: var(--hot); }
-.set.top .set-label b { color: var(--hot); letter-spacing: .1em; }
-.set.top .kg { font-size: 21px; font-weight: 600; }
-.set.top.done .set-label b { color: var(--done); }
+/* Aufwärmsatz: gedämpft — er zählt nicht ins harte Volumen. */
+.set.warm .bar { background: var(--ramp-1); }
+.set.warm .set-label b { color: var(--muted); }
+.set.warm .kg { font-size: 15px; color: var(--muted); }
+
+/* Arbeitssatz: die Sätze, die zählen. */
+.set.work .bar { background: var(--accent); }
+.set.work .set-label b { color: var(--accent); }
+.set.work .kg { font-weight: 500; }
+
+/* Letzter Satz einer Übung: der härteste. */
+.set.work.last { background: var(--hot-soft); border-color: color-mix(in srgb, var(--hot) 42%, transparent); }
+.set.work.last .bar { background: var(--hot); }
+.set.work.last .set-label b { color: var(--hot); }
+.set.work.last.done .set-label b { color: var(--done); }
 
 .result-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
 .hintbox {
@@ -355,13 +363,6 @@ section[hidden] { display: none; }
 .stat .v .unit { font-size: 13px; }
 body.locked { overflow: hidden; }
 body.timer-on { padding-bottom: 156px; }
-
-/* ---------- Zusatzsatz nach dem Top-Set ---------- */
-
-.set.extra { border-color: color-mix(in srgb, var(--extra) 42%, transparent); }
-.set.extra .bar { background: var(--extra); }
-.set.extra .set-label b { color: var(--extra); letter-spacing: .06em; }
-.set.extra.done .set-label b { color: var(--done); }
 
 /* ---------- Evidenz-Liste ---------- */
 

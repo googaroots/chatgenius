@@ -139,9 +139,10 @@ SSE event types: `text` | `handoff` | `done`.
 
 ## Trainings-App `/trainer`
 
-Statische Web-App für **HIT-Training an Technogym-Geräten**. Läuft ohne Build-Schritt
-und ohne Backend — die App wird vom Express-Server unter `/trainer/` ausgeliefert und
-kann alternativ direkt als `public/trainer/index.html` im Browser geöffnet werden.
+Statische Web-App für ein **evidenzbasiertes Krafttraining an Technogym-Geräten**.
+Läuft ohne Build-Schritt und ohne Backend — die App wird vom Express-Server unter
+`/trainer/` ausgeliefert und kann alternativ direkt als `public/trainer/index.html`
+im Browser geöffnet werden.
 
 ```bash
 npm run dev            # danach: http://localhost:3000/trainer/
@@ -149,37 +150,38 @@ npm run dev            # danach: http://localhost:3000/trainer/
 
 | Datei | Inhalt |
 |---|---|
-| `public/trainer/plan.js` | Plandaten: zwei Programme, 20 Technogym-Übungen, Satz-Rampe, Muskelzuordnung, Belege |
+| `public/trainer/plan.js` | Programm, 22 Technogym-Übungen mit Muskelzuordnung, Aufwärmschema, Belege |
 | `public/trainer/app.js` | Logik: Sitzung, Gewichtsberechnung, Progression, Volumenrechnung, Timer, Verlauf |
 | `public/trainer/app.css` | Design-Tokens, dunkles und helles Theme |
 | `public/trainer/index.html` | Grundgerüst und Tab-Navigation |
 
+**Das Programm** — Oberkörper/Unterkörper an vier Tagen (Mo / Di / Do / Fr), jede
+Muskelgruppe zweimal pro Woche, 2–3 Arbeitssätze je Übung im Bereich 6–15
+Wiederholungen mit 1–2 Wiederholungen in Reserve. Ergibt 8–14 harte Sätze je Muskel
+und Woche und liegt damit im Korridor, für den die Volumen-Meta-Analysen den größten
+Zuwachs zeigen.
+
 **Was die App macht**
 
-- **Heute** — zeigt anhand des Wochentags die fällige Einheit (an Pausentagen die
-  Regenerationsbegründung und eine Vorschau auf das nächste Training).
-- **Aufwärmsätze rechnen sich selbst** — ein eingetragenes Top-Set-Gewicht ergibt die
-  Rampe 50 % / 70 % / 85 % / 100 %, gerundet auf den Gewichtssprung des Geräts
-  (2,5 kg, bei Leg Press und Calf 5 kg).
-- **Zusatzvolumen nach dem Top-Set** — wahlweise ein Back-off-Satz (≈ 88 % des
-  Top-Set-Gewichts, 6–10 Wdh.) oder ein Rest-Pause-Durchgang; beides wird mitgerechnet
-  und mitgeloggt. Abschaltbar für klassisches Ein-Satz-HIT.
-- **Zwei Programme** — der Hybrid über vier Tage (Mo/Di/Do/Fr, jede Muskelgruppe zweimal
-  pro Woche, Voreinstellung) und der ursprüngliche 5er-Split (Mo/Mi/Fr/Sa/So, jede
-  Muskelgruppe einmal pro Woche).
-- **Progression nach HIT-Logik** — 8+ Wdh. im Top-Set → nächstes Mal ein Sprung mehr,
-  6–7 Wdh. → Gewicht halten, unter 6 → 10 % zurück.
-- **Ausbelastung wählbar** — bis zum Muskelversagen oder mit 1–2 Wiederholungen in
-  Reserve; die Satzbeschreibung passt sich an.
-- **Pausen-Timer** — startet automatisch beim Abhaken eines Satzes
-  (60 s / 90 s / 2,5 Min vor dem Top-Set / 2 Min vor dem Zusatzsatz / 3 Min zum Wechsel).
+- **Heute** — zeigt anhand des Wochentags die fällige Einheit mit Sätzen, Zielspanne
+  und Gewichtsvorschlag (an Pausentagen die Vorschau auf das nächste Training).
+- **Aufwärmsätze rechnen sich selbst** — zwei kurze Sätze mit 50 % und 75 % des
+  Arbeitsgewichts, standardmäßig vor der ersten Übung je Körperregion; umstellbar auf
+  jede Übung oder ganz aus.
+- **Doppelte Progression** — obere Grenze der Wiederholungsspanne im letzten Satz
+  erreicht → nächstes Mal ein Gewichtssprung (2,5 kg, bei Leg Press und Calf 5 kg);
+  unter der unteren Grenze → 10 % zurück.
+- **Pausen-Timer** — startet beim Abhaken eines Satzes: 45–60 s nach Aufwärmsätzen,
+  90 s nach isolierten, 2,5 Min nach schweren Sätzen.
 - **Volumen-Auswertung** — harte Sätze je Muskel und Woche gegen den Zielkorridor
-  10–20; direkt belastete Muskeln zählen voll, indirekt beteiligte zur Hälfte.
-- **Verlauf** — Top-Set je Übung, Bestwerte, bewegte Last, Export/Import als JSON.
+  10–20; direkt belastete Muskeln zählen voll, indirekt beteiligte zur Hälfte,
+  Aufwärmsätze gar nicht.
+- **Verlauf** — Gewicht und Wiederholungen je Übung, Bestwerte, bewegte Last,
+  Export/Import als JSON.
 
-Die Voreinstellungen und der Plan-Tab („Studienlage in fünf Punkten") folgen den
-Volumen- und Ausbelastungs-Meta-Analysen (Krieger 2010, Pelland et al. 2024/25,
-Refalo et al. 2023, Schoenfeld et al. 2019, Tsartsapakis et al. 2026).
+Der Plan-Tab führt unter „Studienlage in fünf Punkten" die Belege auf (Krieger 2010,
+Pelland et al. 2024/25, Refalo et al. 2023, Schoenfeld et al. 2017 und 2019).
 
 Alle Daten liegen ausschließlich im `localStorage` des Browsers; die App sendet nichts
-an den Server. Ein laufendes Training übersteht einen Reload.
+an den Server. Ältere gespeicherte Stände werden beim Laden migriert, Gewichte und
+Verlauf bleiben dabei erhalten.
