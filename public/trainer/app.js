@@ -609,12 +609,29 @@
 
   /* ------------------------------------------------------ Import / Export */
 
-  function exportData() {
-    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+  async function exportData() {
+    const json = JSON.stringify(state, null, 2);
+    const filename = `topset-hit-${new Date().toISOString().slice(0, 10)}.json`;
+
+    // Läuft die App in einer Claude-Artifact-Ansicht, muss der Download über
+    // deren Bestätigungsdialog gehen — ein normaler Link bleibt dort wirkungslos.
+    if (window.claude && typeof window.claude.use === "function") {
+      try {
+        const downloads = await window.claude.use("downloads");
+        if (downloads) {
+          await downloads.save({ filename, data: json });
+          return;
+        }
+      } catch (err) {
+        if (err && err.code === "declined") return;
+        // sonst: normaler Browser-Download als Rückfall
+      }
+    }
+
+    const url = URL.createObjectURL(new Blob([json], { type: "application/json" }));
     const a = document.createElement("a");
     a.href = url;
-    a.download = `topset-hit-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     a.remove();
