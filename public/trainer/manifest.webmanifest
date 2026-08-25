@@ -1,0 +1,14 @@
+{
+  "name": "Top Set — Trainings-App",
+  "short_name": "Top Set",
+  "description": "Evidenzbasiertes 4-Tage-Programm fürs Studio: Einheit des Tages, berechnete Sätze, Progression und Wochenvolumen.",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#121419",
+  "theme_color": "#121419",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

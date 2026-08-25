@@ -181,8 +181,15 @@ Zuwachs zeigen.
 - **Volumen-Auswertung** — harte Sätze je Muskel und Woche gegen den Zielkorridor
   10–20; direkt belastete Muskeln zählen voll, indirekt beteiligte zur Hälfte,
   Aufwärmsätze gar nicht.
-- **Verlauf** — Gewicht und Wiederholungen je Übung, Bestwerte, bewegte Last,
-  Export/Import als JSON.
+- **Verlauf** — Gewicht und Wiederholungen je Übung mit Verlaufskurve, Bestwerte,
+  bewegte Last, Export/Import als JSON.
+- **Geräteeinstellungen merken** — Notiz je Übung (Sitzhöhe, Lehne, Griff), sichtbar
+  in der Tagesliste, der laufenden Einheit und im Plan-Tab.
+- **Entlastungswoche** — nach 8 Trainingswochen schlägt die App eine leichte Woche
+  vor (halbe Satzzahl, 10 % weniger Gewicht) und setzt den Zähler danach zurück.
+- **Körpergewicht** — wöchentlicher Eintrag mit Kurve und 4-Wochen-Trend.
+- **Installierbar (PWA)** — Manifest, Icon und Service Worker; über HTTPS ausgeliefert
+  lässt sich die App aufs Handy installieren und läuft offline.
 
 Der Plan-Tab führt die Belege auf — zur Programm-Struktur (Krieger 2010, Pelland et al.
 2024/25, Refalo et al. 2023, Schoenfeld et al. 2017 und 2019) und zur Übungsauswahl:

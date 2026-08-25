@@ -17,10 +17,14 @@
   });
 
   const emptyState = () => ({
-    v: 4,
+    v: 5,
     theme: null,          // null = System, "dark" | "light"
     settings: defaultSettings(),
     weights: {},          // exId -> { kg, reps, date }
+    notes: {},            // exId -> Geräteeinstellung, z. B. "Sitz 4 · Lehne 2"
+    bodyweight: [],       // { date, kg }
+    deload: null,         // Wochenschlüssel der laufenden Entlastungswoche
+    lastDeload: null,     // Datum der zuletzt abgeschlossenen Entlastungswoche
     history: [],          // { id, date, dayId, title, entries: [{ exId, kg, reps, hardSets }] }
     active: null          // laufendes Training
   });
@@ -61,7 +65,9 @@
       entries: (s.entries || []).map((e) => ({ ...e, hardSets: e.hardSets || 1 }))
     }));
     if (old) next.active = null;
-    next.v = 4;
+    next.notes = next.notes || {};
+    next.bodyweight = Array.isArray(next.bodyweight) ? next.bodyweight : [];
+    next.v = 5;
     return next;
   }
 
@@ -88,6 +94,34 @@
     return (Math.round(n * 10) / 10).toString().replace(".", ",");
   }
 
+  /** Montag der Woche als Schlüssel, z. B. "2026-08-24". */
+  function weekKeyOf(date) {
+    const d = new Date(date);
+    const offset = (d.getDay() + 6) % 7;
+    const monday = new Date(d.getFullYear(), d.getMonth(), d.getDate() - offset);
+    return `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, "0")}-${String(monday.getDate()).padStart(2, "0")}`;
+  }
+  function currentWeekKey() { return weekKeyOf(new Date()); }
+
+  /** Trainingswochen seit der letzten Entlastungswoche. */
+  function weeksSinceDeload() {
+    const since = state.lastDeload ? new Date(state.lastDeload).getTime() : 0;
+    const keys = new Set(
+      state.history.filter((s) => new Date(s.date).getTime() > since).map((s) => weekKeyOf(s.date))
+    );
+    return keys.size;
+  }
+
+  const DELOAD_AFTER = 8;
+  function deloadActive() { return state.deload === currentWeekKey(); }
+  function deloadDue() { return !deloadActive() && weeksSinceDeload() >= DELOAD_AFTER; }
+
+  /** Sätze der Übung — in der Entlastungswoche halbiert. */
+  function setsOf(dayEx) {
+    const dl = state.active ? state.active.deload : deloadActive();
+    return dl ? Math.max(1, Math.round(dayEx.sets / 2)) : dayEx.sets;
+  }
+
   function dayByWeekday(wd) { return PROGRAM.days.find((d) => d.weekday === wd) || null; }
   function dayById(id) { return PROGRAM.days.find((d) => d.id === id) || null; }
 
@@ -108,7 +142,7 @@
   }
 
   function warmupCount(dayEx) { return wantsWarmup(dayEx) ? WARMUP.length : 0; }
-  function rowCount(dayEx) { return warmupCount(dayEx) + dayEx.sets; }
+  function rowCount(dayEx) { return warmupCount(dayEx) + setsOf(dayEx); }
 
   /** Hinweis für den Arbeitssatz — der letzte darf je nach Einstellung härter sein. */
   function workHint(index, total) {
@@ -133,16 +167,17 @@
         kg: kg ? roundTo(kg * w.pct, ex.step) : null
       }));
     }
-    for (let i = 0; i < dayEx.sets; i++) {
+    const total = setsOf(dayEx);
+    for (let i = 0; i < total; i++) {
       rows.push({
         kind: "work",
         nr: i + 1,
         label: `Satz ${i + 1}`,
-        hint: workHint(i, dayEx.sets),
+        hint: workHint(i, total),
         reps: repRange(dayEx),
         rest: ex.compound ? REST.compound : REST.isolation,
         kg: kg || null,
-        last: i === dayEx.sets - 1
+        last: i === total - 1
       });
     }
     return rows;
@@ -154,7 +189,7 @@
   }
 
   function plannedHardSets(day) {
-    return day.exercises.reduce((n, e) => n + e.sets, 0);
+    return day.exercises.reduce((n, e) => n + setsOf(e), 0);
   }
 
   function estimatedMinutes(day) {
@@ -168,6 +203,11 @@
     const last = state.weights[dayEx.id];
     if (!last || !last.kg) return null;
     const step = EXERCISES[dayEx.id].step;
+    const dl = state.active ? state.active.deload : deloadActive();
+    if (dl) {
+      return { kg: roundTo(last.kg * 0.9, step), kind: "hold",
+        text: `Entlastungswoche: ${fmtKg(roundTo(last.kg * 0.9, step))} kg statt ${fmtKg(last.kg)} kg, halbe Satzzahl.` };
+    }
     const base = `Zuletzt ${fmtKg(last.kg)} kg × ${last.reps} Wdh. im letzten Satz`;
     if (last.reps >= dayEx.max) {
       return { kg: last.kg + step, kind: "up", text: `${base} → heute +${fmtKg(step)} kg.` };
@@ -247,6 +287,7 @@
     if (!day) return;
     state.active = {
       dayId,
+      deload: deloadActive(),
       startedAt: new Date().toISOString(),
       sets: Object.fromEntries(day.exercises.map((dayEx, i) => {
         const p = progression(dayEx);
@@ -388,11 +429,13 @@
           <button class="btn btn-ghost" data-act="start" data-day="${next.id}">Einheit trotzdem jetzt starten</button>
         </div>
         <div class="hintbox">Pausentage sind Teil des Plans: Der Muskel wächst zwischen den Einheiten, nicht während.</div>
+        ${deloadBanner()}
       `;
     }
 
     const last = lastSessionFor(day.id);
     return `
+      ${deloadBanner()}
       <div class="today-head">
         <span class="eyebrow">${esc(day.weekdayName)} · Tag ${day.id} von ${PROGRAM.days.length}</span>
         <h1>${esc(day.title)}</h1>
@@ -413,6 +456,29 @@
     `;
   }
 
+  /** Hinweis auf die fällige oder laufende Entlastungswoche. */
+  function deloadBanner() {
+    if (deloadActive()) {
+      return `<div class="banner">
+        <div>
+          <b>Entlastungswoche läuft</b>
+          <span>Halbe Satzzahl, 10 % weniger Gewicht — die Belastung sinkt, die Anpassung holt auf.</span>
+        </div>
+        <button class="btn btn-ghost btn-sm" data-act="deload-end">Beenden</button>
+      </div>`;
+    }
+    if (deloadDue()) {
+      return `<div class="banner due">
+        <div>
+          <b>${weeksSinceDeload()} Trainingswochen am Stück</b>
+          <span>Zeit für eine leichte Woche: halbe Sätze, 10 % weniger Gewicht. Danach geht es mit frischen Reserven weiter.</span>
+        </div>
+        <button class="btn btn-sm" data-act="deload-start">Leichte Woche</button>
+      </div>`;
+    }
+    return "";
+  }
+
   function exRow(dayEx, i) {
     const ex = EXERCISES[dayEx.id];
     const p = progression(dayEx);
@@ -421,7 +487,8 @@
         <span class="thumb">${art(dayEx.id)}<i class="data">${String(i + 1).padStart(2, "0")}</i></span>
         <span>
           <span class="name">${esc(ex.name)}</span>
-          <span class="meta">${dayEx.sets} × ${repRange(dayEx)} Wdh. · ${esc(ex.target)}</span>
+          <span class="meta">${setsOf(dayEx)} × ${repRange(dayEx)} Wdh. · ${esc(ex.target)}</span>
+          ${state.notes[dayEx.id] ? `<span class="meta note">⚙ ${esc(state.notes[dayEx.id])}</span>` : ""}
         </span>
         <span class="load">${p ? fmtKg(p.kg) : "—"}<small>${p ? "KG" : "NEU"}</small></span>
       </li>`;
@@ -431,7 +498,7 @@
     const act = state.active;
     const day = dayById(act.dayId);
     const total = day.exercises.length;
-    const done = day.exercises.filter((dayEx, i) => hardSetsOf(dayEx, act.sets[slot(dayEx, i)]) >= dayEx.sets).length;
+    const done = day.exercises.filter((dayEx, i) => hardSetsOf(dayEx, act.sets[slot(dayEx, i)]) >= setsOf(dayEx)).length;
     const hard = day.exercises.reduce((n, dayEx, i) => n + hardSetsOf(dayEx, act.sets[slot(dayEx, i)]), 0);
 
     return `
@@ -457,14 +524,14 @@
     const hard = hardSetsOf(dayEx, entry);
 
     return `
-      <article class="session-ex ${hard >= dayEx.sets ? "" : "active"}" data-slot="${key}" data-ex="${dayEx.id}">
+      <article class="session-ex ${hard >= setsOf(dayEx) ? "" : "active"}" data-slot="${key}" data-ex="${dayEx.id}">
         <header>
           <span class="art-box">${art(dayEx.id)}<i class="idx data">${String(i + 1).padStart(2, "0")}</i></span>
           <div class="grow">
             <h3>${esc(ex.name)}</h3>
             <div class="machine">${esc(ex.machine)} — ${esc(ex.target)}</div>
           </div>
-          <span class="pill ${hard >= dayEx.sets ? "pill-done" : ""}"><span class="data">${hard}/${dayEx.sets}</span></span>
+          <span class="pill ${hard >= setsOf(dayEx) ? "pill-done" : ""}"><span class="data">${hard}/${setsOf(dayEx)}</span></span>
         </header>
         <div class="session-body">
           <div class="topset-input">
@@ -500,6 +567,11 @@
               </div>
               <div class="verdict ${verdictFor(dayEx, entry).kind} grow-min">${esc(verdictFor(dayEx, entry).text)}</div>
             </div>` : ""}
+          <div class="field wide">
+            <label for="note-${key}">Geräteeinstellung merken</label>
+            <input id="note-${key}" type="text" data-role="note" maxlength="60"
+                   value="${esc(state.notes[dayEx.id] || "")}" placeholder="z. B. Sitz 4 · Lehne 2 · Griff eng">
+          </div>
           <div class="hintbox">
             <span><b>Einstellung:</b> ${esc(ex.tip)}</span>
             ${ex.alt ? `<span class="alt-line"><b>Gerät besetzt?</b> ${esc(ex.alt)}</span>` : ""}
@@ -577,7 +649,7 @@
             ${day.exercises.map((dayEx) => {
               const ex = EXERCISES[dayEx.id];
               return `<details class="acc">
-                <summary><b>${esc(ex.name)}</b><span class="machine data">${dayEx.sets} × ${repRange(dayEx)}</span></summary>
+                <summary><b>${esc(ex.name)}</b><span class="machine data">${setsOf(dayEx)} × ${repRange(dayEx)}</span></summary>
                 <div class="acc-body">
                   <span class="art-box wide">${art(dayEx.id)}</span>
                   <span><b>Ziel-Muskel:</b> ${esc(ex.target)}</span>
@@ -585,6 +657,7 @@
                   <span><b>Einstellung:</b> ${esc(ex.tip)}</span>
                   <span><b>Warum drin:</b> ${esc(ex.why)}</span>
                   ${ex.alt ? `<span><b>Ersatz:</b> ${esc(ex.alt)}</span>` : ""}
+                  ${state.notes[dayEx.id] ? `<span><b>Deine Einstellung:</b> ${esc(state.notes[dayEx.id])}</span>` : ""}
                 </div>
               </details>`;
             }).join("")}
@@ -606,6 +679,55 @@
   }
 
   /* ------------------------------------------------------------ Fortschritt */
+
+  /** Kleine Verlaufskurve; letzter Punkt betont. */
+  function sparkline(values, label, w, h) {
+    if (!values || values.length < 2) return `<span class="spark-empty data">—</span>`;
+    w = w || 96; h = h || 30;
+    const pad = 4;
+    const min = Math.min(...values), max = Math.max(...values);
+    const span = (max - min) || 1;
+    const pts = values.map((v, i) => [
+      pad + (i * (w - 2 * pad)) / (values.length - 1),
+      h - pad - ((v - min) / span) * (h - 2 * pad)
+    ]);
+    const d = pts.map((pt, i) => `${i ? "L" : "M"}${pt[0].toFixed(1)} ${pt[1].toFixed(1)}`).join("");
+    const area = `${d}L${pts[pts.length - 1][0].toFixed(1)} ${h - pad}L${pts[0][0].toFixed(1)} ${h - pad}Z`;
+    const end = pts[pts.length - 1];
+    return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" role="img" aria-label="${esc(label)}">
+      <path class="sp-area" d="${area}"/>
+      <path class="sp-line" d="${d}" vector-effect="non-scaling-stroke"/>
+      <circle class="sp-dot" cx="${end[0].toFixed(1)}" cy="${end[1].toFixed(1)}" r="4"/>
+    </svg>`;
+  }
+
+  /* ------------------------------------------------------- Körpergewicht */
+
+  function addBodyweight(kg) {
+    if (!kg || isNaN(kg)) return;
+    const today = new Date().toISOString().slice(0, 10);
+    state.bodyweight = state.bodyweight.filter((b) => b.date.slice(0, 10) !== today);
+    state.bodyweight.push({ date: new Date().toISOString(), kg });
+    state.bodyweight.sort((a, b) => new Date(a.date) - new Date(b.date));
+    save();
+    render();
+  }
+
+  /** Veränderung gegenüber dem Eintrag, der vier Wochen zurückliegt. */
+  function bodyweightTrend() {
+    const bw = state.bodyweight;
+    if (bw.length < 2) return null;
+    const latest = bw[bw.length - 1];
+    const target = new Date(latest.date).getTime() - 28 * 24 * 3600 * 1000;
+    let ref = bw[0];
+    bw.forEach((b) => {
+      if (Math.abs(new Date(b.date).getTime() - target) < Math.abs(new Date(ref.date).getTime() - target)) ref = b;
+    });
+    if (ref === latest) return null;
+    const diff = latest.kg - ref.kg;
+    const days = Math.round((new Date(latest.date) - new Date(ref.date)) / (24 * 3600 * 1000));
+    return { diff, days };
+  }
 
   function renderProgress() {
     const sessions = state.history.length;
@@ -665,6 +787,8 @@
         <p class="muted small nomargin">Direkt belastete Muskeln zählen voll, indirekt beteiligte zur Hälfte — so rechnen auch die Volumen-Meta-Analysen. Aufwärmsätze zählen nicht mit.</p>
       </div>
 
+      ${bodyweightCard()}
+
       ${perExercise.length ? `
         <div class="card">
           <span class="eyebrow">Gewichte je Übung</span>
@@ -677,6 +801,7 @@
                   <span class="nm">${esc(ex.name)}</span><br>
                   <span class="hist">${row.hist.map((h) => `${fmtKg(h.kg)}×${h.reps}`).join("  ›  ")}</span>
                 </span>
+                <span class="sparkwrap">${sparkline(row.hist.map((h) => h.kg), `Verlauf ${ex.name}`)}</span>
                 <span class="cur">${fmtKg(cur.kg)} kg<small>Best ${fmtKg(row.best)} kg</small></span>
               </div>`;
             }).join("")}
@@ -709,6 +834,35 @@
         </div>
       </div>
     `;
+  }
+
+  function bodyweightCard() {
+    const bw = state.bodyweight;
+    const latest = bw.length ? bw[bw.length - 1] : null;
+    const trend = bodyweightTrend();
+    const series = bw.slice(-16).map((b) => b.kg);
+    return `
+      <div class="card stack">
+        <div class="row-between">
+          <span class="eyebrow">Körpergewicht</span>
+          ${trend ? `<span class="muted data small">${trend.diff >= 0 ? "+" : "−"}${fmtKg(Math.abs(trend.diff))} kg in ${trend.days} Tagen</span>` : ""}
+        </div>
+        ${latest ? `
+          <div class="bw-row">
+            <span class="bw-val data">${fmtKg(latest.kg)}<em> kg</em></span>
+            <span class="bw-chart">${sparkline(series, "Verlauf Körpergewicht", 200, 54)}</span>
+          </div>
+          <p class="muted small nomargin">Zuletzt am ${formatDate(latest.date)} · ${bw.length} ${bw.length === 1 ? "Eintrag" : "Einträge"}</p>
+        ` : `<p class="muted small nomargin">Einmal pro Woche wiegen, am besten morgens nüchtern — erst der Verlauf über Wochen zeigt, ob Kalorien und Volumen zusammenpassen.</p>`}
+        <div class="topset-input">
+          <div class="field">
+            <label for="bw-input">Heute wiegen</label>
+            <input id="bw-input" type="number" inputmode="decimal" step="0.1" min="20" max="300"
+                   placeholder="${latest ? fmtKg(latest.kg) : "0"}">
+          </div>
+          <button class="btn btn-ghost btn-sm" data-act="bw-save">Eintragen</button>
+        </div>
+      </div>`;
   }
 
   /** Bewegte Last: unter 10 t in kg, darüber in Tonnen. */
@@ -772,8 +926,8 @@
         const entry = state.active.sets[slot(dayEx, i)];
         if (!entry) return;
         const need = rowCount(dayEx);
-        const work = entry.done.slice(entry.done.length - dayEx.sets);
-        const warm = new Array(Math.max(0, need - dayEx.sets)).fill(false);
+        const work = entry.done.slice(entry.done.length - setsOf(dayEx));
+        const warm = new Array(Math.max(0, need - setsOf(dayEx))).fill(false);
         entry.done = warm.concat(work);
       });
     }
@@ -836,9 +990,23 @@
       }
       return;
     }
+    if (act === "deload-start") { state.deload = currentWeekKey(); save(); render(); return; }
+    if (act === "deload-end") {
+      state.deload = null;
+      state.lastDeload = new Date().toISOString();
+      save(); render();
+      return;
+    }
     if (act === "timer-stop") { stopRest(); return; }
     if (act === "timer-plus") { timer.left += 30; renderTimer(); return; }
 
+    if (act === "bw-save") {
+      const input = document.getElementById("bw-input");
+      const val = parseFloat(String(input.value).replace(",", "."));
+      if (isNaN(val)) { alert("Trag zuerst dein Gewicht ein."); return; }
+      addBodyweight(Math.round(val * 10) / 10);
+      return;
+    }
     if (act === "export") { exportData(); return; }
     if (act === "import") { importData(); return; }
     if (act === "reset") {
@@ -887,6 +1055,10 @@
         if (!rows[idx]) return;
         row.querySelector(".kg").innerHTML = `${rows[idx].kg !== null ? fmtKg(rows[idx].kg) : "—"} <em>kg</em>`;
       });
+    } else if (input.dataset.role === "note") {
+      const exId = card.dataset.ex;
+      const val = input.value.trim();
+      if (val) state.notes[exId] = val; else delete state.notes[exId];
     } else if (input.dataset.role === "reps") {
       const val = parseInt(input.value, 10);
       entry.reps = isNaN(val) ? null : val;
