@@ -164,8 +164,9 @@ npm run dev            # danach: http://localhost:3000/trainer/
 - **Zusatzvolumen nach dem Top-Set** — wahlweise ein Back-off-Satz (≈ 88 % des
   Top-Set-Gewichts, 6–10 Wdh.) oder ein Rest-Pause-Durchgang; beides wird mitgerechnet
   und mitgeloggt. Abschaltbar für klassisches Ein-Satz-HIT.
-- **Zwei Programme** — der ursprüngliche 5er-Split (Mo/Mi/Fr/Sa/So, jede Muskelgruppe
-  einmal pro Woche) und ein Hybrid über vier Tage, der jede Muskelgruppe zweimal trifft.
+- **Zwei Programme** — der Hybrid über vier Tage (Mo/Di/Do/Fr, jede Muskelgruppe zweimal
+  pro Woche, Voreinstellung) und der ursprüngliche 5er-Split (Mo/Mi/Fr/Sa/So, jede
+  Muskelgruppe einmal pro Woche).
 - **Progression nach HIT-Logik** — 8+ Wdh. im Top-Set → nächstes Mal ein Sprung mehr,
   6–7 Wdh. → Gewicht halten, unter 6 → 10 % zurück.
 - **Ausbelastung wählbar** — bis zum Muskelversagen oder mit 1–2 Wiederholungen in

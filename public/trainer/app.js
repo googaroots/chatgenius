@@ -11,13 +11,13 @@
   /* ---------------------------------------------------------------- Zustand */
 
   const defaultSettings = () => ({
-    program: "hit5",   // "hit5" | "hybrid4"
+    program: "hybrid4", // "hit5" | "hybrid4"
     extra: "backoff",  // "backoff" | "restpause" | "none"
     effort: "failure"  // "failure" | "rir"
   });
 
   const emptyState = () => ({
-    v: 2,
+    v: 3,
     theme: null,          // null = System, "dark" | "light"
     settings: defaultSettings(),
     weights: {},          // exId -> { kg, reps, date }
@@ -43,14 +43,16 @@
   function migrate(data) {
     const next = Object.assign(emptyState(), data);
     next.settings = Object.assign(defaultSettings(), data.settings || {});
-    if (!PROGRAMS[next.settings.program]) next.settings.program = "hit5";
+    // v3: Umstellung auf das Hybrid-Programm — einmalig, danach gilt wieder die eigene Wahl.
+    if ((data.v || 1) < 3) next.settings.program = "hybrid4";
+    if (!PROGRAMS[next.settings.program]) next.settings.program = "hybrid4";
     next.history = (next.history || []).map((s) => ({
       ...s,
       program: s.program || "hit5",
       entries: (s.entries || []).map((e) => ({ ...e, hardSets: e.hardSets || 1 }))
     }));
     if (next.active && !next.active.program) next.active.program = "hit5";
-    next.v = 2;
+    next.v = 3;
     return next;
   }
 
@@ -945,5 +947,6 @@
   /* ----------------------------------------------------------------- Start */
 
   applyTheme();
+  save(); // migrierten Stand einmal festschreiben
   render();
 })();
