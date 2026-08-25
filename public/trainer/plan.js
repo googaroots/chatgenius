@@ -121,6 +121,15 @@ const EXERCISES = {
     tip: "Hüfte bleibt am Polster, kein Hohlkreuz — sonst übernimmt der Rücken.",
     why: "Zweiter Winkel in der Woche, trifft die kurzen Köpfe stärker."
   },
+  "glute": {
+    name: "Glute Machine",
+    machine: "Selection",
+    target: "Gesäßmuskulatur",
+    primary: "huefte", secondary: ["hamstrings"], compound: false,
+    step: 5,
+    tip: "Standbein leicht gebeugt, Bewegung nur aus der Hüfte — oben 1 Sekunde halten, kein Hohlkreuz.",
+    why: "Die einzige Übung im Plan, die das Gesäß direkt und in voller Streckung belastet."
+  },
   "abductor-adductor": {
     name: "Abductor / Adductor",
     machine: "Selection",
@@ -229,7 +238,7 @@ const PROGRAM = {
   id: "eb4",
   name: "Evidenz-4er",
   tagline: "Oberkörper / Unterkörper — Mo / Di / Do / Fr",
-  note: "Jede Muskelgruppe zweimal pro Woche, 2–3 Arbeitssätze je Übung, 10–14 harte Sätze je Muskel.",
+  note: "Jede Muskelgruppe zweimal pro Woche, 2–3 Arbeitssätze je Übung, 7–14 harte Sätze je Muskel.",
   days: [
     {
       id: 1, weekday: 1, weekdayName: "Montag", short: "Mo",
@@ -248,14 +257,15 @@ const PROGRAM = {
     {
       id: 2, weekday: 2, weekdayName: "Dienstag", short: "Di",
       title: "Unterkörper A", subtitle: "Quadrizeps-Schwerpunkt",
-      focus: "Oberschenkelvorderseite, Beinbeuger, Waden und Bauch",
+      focus: "Oberschenkelvorderseite, Beinbeuger, Waden und Bauch (gerade & schräg)",
       logic: "Beine direkt nach dem Oberkörper — der Mittwoch bleibt frei",
       exercises: [
         { id: "leg-press",       sets: 3, min: 8,  max: 12, ramp: true },
         { id: "leg-extension",   sets: 3, min: 10, max: 15 },
         { id: "seated-leg-curl", sets: 3, min: 8,  max: 12, ramp: true },
         { id: "calf",            sets: 3, min: 10, max: 15 },
-        { id: "abdominal-crunch", sets: 3, min: 10, max: 15 }
+        { id: "abdominal-crunch", sets: 3, min: 10, max: 15 },
+        { id: "rotary-torso",     sets: 2, min: 12, max: 15 }
       ]
     },
     {
@@ -276,11 +286,12 @@ const PROGRAM = {
     {
       id: 4, weekday: 5, weekdayName: "Freitag", short: "Fr",
       title: "Unterkörper B", subtitle: "Beinrückseite & Hüfte",
-      focus: "Hamstrings, Gesäß, Waden und schräger Bauch",
+      focus: "Hamstrings, Gesäß direkt, Hüfte und Waden",
       logic: "Zweite Bein-Einheit, danach zwei Tage Pause",
       exercises: [
         { id: "prone-leg-curl",     sets: 3, min: 8,  max: 12, ramp: true },
         { id: "leg-press-high",     sets: 3, min: 10, max: 15, ramp: true },
+        { id: "glute",              sets: 2, min: 10, max: 15 },
         { id: "abductor-adductor",  sets: 2, min: 12, max: 15 },
         { id: "calf",               sets: 3, min: 10, max: 15 },
         { id: "leg-extension",      sets: 2, min: 12, max: 15 },

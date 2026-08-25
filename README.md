@@ -150,14 +150,14 @@ npm run dev            # danach: http://localhost:3000/trainer/
 
 | Datei | Inhalt |
 |---|---|
-| `public/trainer/plan.js` | Programm, 22 Technogym-Übungen mit Muskelzuordnung, Aufwärmschema, Belege |
+| `public/trainer/plan.js` | Programm, 23 Technogym-Übungen mit Muskelzuordnung, Aufwärmschema, Belege |
 | `public/trainer/app.js` | Logik: Sitzung, Gewichtsberechnung, Progression, Volumenrechnung, Timer, Verlauf |
 | `public/trainer/app.css` | Design-Tokens, dunkles und helles Theme |
 | `public/trainer/index.html` | Grundgerüst und Tab-Navigation |
 
 **Das Programm** — Oberkörper/Unterkörper an vier Tagen (Mo / Di / Do / Fr), jede
 Muskelgruppe zweimal pro Woche, 2–3 Arbeitssätze je Übung im Bereich 6–15
-Wiederholungen mit 1–2 Wiederholungen in Reserve. Ergibt 8–14 harte Sätze je Muskel
+Wiederholungen mit 1–2 Wiederholungen in Reserve. Ergibt 7–14 harte Sätze je Muskel
 und Woche und liegt damit im Korridor, für den die Volumen-Meta-Analysen den größten
 Zuwachs zeigen.
 
