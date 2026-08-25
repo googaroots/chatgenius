@@ -176,10 +176,14 @@ button { cursor: pointer; }
 /* Übungsliste in der Vorschau */
 .ex-list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: ex; }
 .ex-row {
-  display: grid; grid-template-columns: 26px 1fr auto; gap: 12px; align-items: center;
+  display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; align-items: center;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px 14px;
 }
-.ex-row .num { font-family: var(--font-data); font-size: 13px; color: var(--muted); }
+.ex-row .thumb { position: relative; display: block; background: var(--surface-2); border-radius: 6px; padding: 2px; }
+.ex-row .thumb i {
+  position: absolute; left: 3px; top: 2px; font-style: normal;
+  font-size: 9px; color: var(--muted); letter-spacing: .04em;
+}
 .ex-row .name { display: block; font-weight: 600; line-height: 1.25; }
 .ex-row .meta { display: block; font-size: 13px; color: var(--muted); }
 .ex-row .load { text-align: right; font-family: var(--font-data); font-size: 15px; }
@@ -440,3 +444,22 @@ body.timer-on { padding-bottom: 156px; }
   padding: 9px 6px; font-size: 14px; font-weight: 600; color: var(--muted);
 }
 .seg-btn.on { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
+
+
+/* ---------- Übungs-Piktogramme ---------- */
+
+.art { display: block; width: 100%; height: auto; overflow: visible; }
+.art .f { fill: none; stroke: var(--line-strong); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.art .p { fill: var(--surface-2); stroke: var(--line-strong); stroke-width: 2; }
+.art .b { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.art .bh { fill: var(--accent); }
+.art .m { fill: none; stroke: var(--hot); stroke-width: 2.4; stroke-dasharray: 5 4; stroke-linecap: round; }
+.art .mh { fill: var(--hot); }
+
+/* Piktogramm-Flächen */
+.art-box { position: relative; display: block; width: 84px; flex: none; background: var(--surface-2); border-radius: 8px; padding: 4px; }
+.art-box .idx { position: absolute; left: 6px; top: 4px; font-style: normal; font-size: 10px; color: var(--muted); }
+.art-box.wide { width: 132px; margin-bottom: 4px; }
+@media (max-width: 380px) {
+  .art-box { width: 68px; }
+}

@@ -151,6 +151,7 @@ npm run dev            # danach: http://localhost:3000/trainer/
 | Datei | Inhalt |
 |---|---|
 | `public/trainer/plan.js` | Programm, 23 Technogym-Übungen mit Muskelzuordnung, Aufwärmschema, Belege |
+| `public/trainer/art.js` | Piktogramme aller Übungen als SVG (eigene Zeichnungen, kein fremdes Bildmaterial) |
 | `public/trainer/app.js` | Logik: Sitzung, Gewichtsberechnung, Progression, Volumenrechnung, Timer, Verlauf |
 | `public/trainer/app.css` | Design-Tokens, dunkles und helles Theme |
 | `public/trainer/index.html` | Grundgerüst und Tab-Navigation |
@@ -165,6 +166,8 @@ Zuwachs zeigen.
 
 - **Heute** — zeigt anhand des Wochentags die fällige Einheit mit Sätzen, Zielspanne
   und Gewichtsvorschlag (an Pausentagen die Vorschau auf das nächste Training).
+- **Piktogramm je Übung** — Gerät, Körperhaltung und Bewegungsrichtung als SVG, in der
+  Tagesliste, in der laufenden Einheit und im Plan-Tab.
 - **Aufwärmsätze rechnen sich selbst** — zwei kurze Sätze mit 50 % und 75 % des
   Arbeitsgewichts, standardmäßig vor der ersten Übung je Körperregion; umstellbar auf
   jede Übung oder ganz aus.

@@ -6,6 +6,7 @@
   "use strict";
 
   const { WARMUP, REST, MUSCLES, EXERCISES, PROGRAM, WEEK_ORDER, VOLUME_TARGET, EVIDENCE } = window.TG;
+  const ART = window.TG_ART || {};
   const STORE_KEY = "topset-hit-v1";
 
   /* ---------------------------------------------------------------- Zustand */
@@ -348,6 +349,9 @@
 
   /* ----------------------------------------------------------- Darstellung */
 
+  /** Piktogramm einer Übung; fehlt eines, bleibt der Platz leer. */
+  function art(exId) { return ART[exId] || ""; }
+
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   function weekStrip(todayWd) {
@@ -414,7 +418,7 @@
     const p = progression(dayEx);
     return `
       <li class="ex-row">
-        <span class="num">${String(i + 1).padStart(2, "0")}</span>
+        <span class="thumb">${art(dayEx.id)}<i class="data">${String(i + 1).padStart(2, "0")}</i></span>
         <span>
           <span class="name">${esc(ex.name)}</span>
           <span class="meta">${dayEx.sets} × ${repRange(dayEx)} Wdh. · ${esc(ex.target)}</span>
@@ -455,8 +459,9 @@
     return `
       <article class="session-ex ${hard >= dayEx.sets ? "" : "active"}" data-slot="${key}" data-ex="${dayEx.id}">
         <header>
+          <span class="art-box">${art(dayEx.id)}<i class="idx data">${String(i + 1).padStart(2, "0")}</i></span>
           <div class="grow">
-            <h3>${String(i + 1).padStart(2, "0")} · ${esc(ex.name)}</h3>
+            <h3>${esc(ex.name)}</h3>
             <div class="machine">${esc(ex.machine)} — ${esc(ex.target)}</div>
           </div>
           <span class="pill ${hard >= dayEx.sets ? "pill-done" : ""}"><span class="data">${hard}/${dayEx.sets}</span></span>
@@ -571,6 +576,7 @@
               return `<details class="acc">
                 <summary><b>${esc(ex.name)}</b><span class="machine data">${dayEx.sets} × ${repRange(dayEx)}</span></summary>
                 <div class="acc-body">
+                  <span class="art-box wide">${art(dayEx.id)}</span>
                   <span><b>Ziel-Muskel:</b> ${esc(ex.target)}</span>
                   <span><b>Gerät:</b> ${esc(ex.machine)}</span>
                   <span><b>Einstellung:</b> ${esc(ex.tip)}</span>
