@@ -110,7 +110,8 @@ const EXERCISES = {
     primary: "hamstrings", secondary: [], compound: false,
     step: 2.5,
     tip: "Beckengurt fest anlegen, Fußspitzen angezogen, unten 2 Sekunden ablassen.",
-    why: "Gestreckte Hüfte = maximaler Dehnungsreiz auf die Hamstrings."
+    why: "Sitzend ist die Hüfte gebeugt und der zweigelenkige Beinbeuger gedehnt — im Direktvergleich (ein Bein sitzend, eins liegend, 12 Wochen) wuchs er sitzend deutlich stärker (Maeo et al. 2021).",
+    alt: "Wenn das Gerät besetzt ist: liegender Leg Curl — derselbe Muskel, nur schwächerer Reiz."
   },
   "prone-leg-curl": {
     name: "Prone Leg Curl (liegend)",
@@ -119,7 +120,7 @@ const EXERCISES = {
     primary: "hamstrings", secondary: ["waden"], compound: false,
     step: 2.5,
     tip: "Hüfte bleibt am Polster, kein Hohlkreuz — sonst übernimmt der Rücken.",
-    why: "Zweiter Winkel in der Woche, trifft die kurzen Köpfe stärker."
+    why: "Ausweichübung: gestreckte Hüfte trifft den kurzen Bizepskopf, bringt aber weniger Gesamtwachstum als der sitzende Curl."
   },
   "glute": {
     name: "Glute Machine",
@@ -129,6 +130,26 @@ const EXERCISES = {
     step: 5,
     tip: "Standbein leicht gebeugt, Bewegung nur aus der Hüfte — oben 1 Sekunde halten, kein Hohlkreuz.",
     why: "Die einzige Übung im Plan, die das Gesäß direkt und in voller Streckung belastet."
+  },
+  "overhead-triceps": {
+    name: "Trizeps-Strecken über Kopf (Kabel)",
+    machine: "Kinesis / Dual Adjustable Pulley",
+    target: "Trizeps, besonders der lange Kopf",
+    primary: "trizeps", secondary: [], compound: false,
+    step: 2.5,
+    tip: "Zug von unten, Ellbogen eng am Kopf und hoch fixiert, tief hinter den Kopf ablassen.",
+    why: "Über Kopf ist der lange Trizepskopf gedehnt — im direkten Vergleich über 12 Wochen wuchs der Trizeps dort deutlich stärker als beim Pushdown (Maeo et al. 2023).",
+    alt: "Wenn der Kabelturm besetzt ist: Pushdown, aber mit weiter oben fixierten Ellbogen."
+  },
+  "cable-curl-behind": {
+    name: "Kabel-Curl mit Arm hinter dem Körper",
+    machine: "Kinesis / Dual Adjustable Pulley",
+    target: "Bizeps in gedehnter Position",
+    primary: "bizeps", secondary: [], compound: false,
+    step: 2.5,
+    tip: "Unterste Zugposition, einen Schritt vor das Gerät, Oberarm bleibt hinter der Körperlinie.",
+    why: "Schulter in Streckung dehnt den zweigelenkigen Bizeps — wächst dort oben stärker, während die Arm-Curl-Maschine eher den unteren Teil trifft (Kassiano et al. 2025).",
+    alt: "Alternativ Kurzhantel-Curl auf der Schrägbank."
   },
   "abductor-adductor": {
     name: "Abductor / Adductor",
@@ -140,13 +161,14 @@ const EXERCISES = {
     why: "Hält die Hüfte stabil und die Knie gesund, wenn die Leg Press schwerer wird."
   },
   "calf": {
-    name: "Calf Machine (sitzend/stehend)",
-    machine: "Selection / Leg Press",
-    target: "Wadenmuskulatur",
+    name: "Wadenheben stehend",
+    machine: "Selection Calf / Leg Press",
+    target: "Wadenmuskulatur (Zwillingswadenmuskel)",
     primary: "waden", secondary: [], compound: false,
     step: 5,
-    tip: "Volle Dehnung unten, 1 Sekunde Halt oben — kein Wippen.",
-    why: "Waden brauchen viele Wiederholungen über die volle Amplitude."
+    tip: "Knie fast gestreckt, volle Dehnung unten, 1 Sekunde Halt oben — kein Wippen.",
+    why: "Mit gestrecktem Knie ist der zweigelenkige Zwillingswadenmuskel unter Spannung: stehend wuchs die Wade über 12 Wochen klar stärker als sitzend (Kinoshita et al. 2023).",
+    alt: "Auch an der Leg Press machbar: Fußballen an die Plattformkante, Beine fast gestreckt."
   },
 
   "vertical-traction": {
@@ -251,7 +273,7 @@ const PROGRAM = {
         { id: "shoulder-press",    sets: 3, min: 8,  max: 10 },
         { id: "low-row",           sets: 3, min: 8,  max: 12 },
         { id: "arm-curl",          sets: 3, min: 10, max: 15 },
-        { id: "triceps-pushdown",  sets: 2, min: 10, max: 15 }
+        { id: "overhead-triceps",  sets: 2, min: 10, max: 15 }
       ]
     },
     {
@@ -280,7 +302,7 @@ const PROGRAM = {
         { id: "rear-delt",           sets: 3, min: 12, max: 15 },
         { id: "pectoral-fly",        sets: 2, min: 12, max: 15 },
         { id: "triceps-press",       sets: 2, min: 10, max: 12 },
-        { id: "arm-curl",            sets: 2, min: 10, max: 15 }
+        { id: "cable-curl-behind",   sets: 2, min: 10, max: 15 }
       ]
     },
     {
@@ -289,11 +311,11 @@ const PROGRAM = {
       focus: "Hamstrings, Gesäß direkt, Hüfte und Waden",
       logic: "Zweite Bein-Einheit, danach zwei Tage Pause",
       exercises: [
-        { id: "prone-leg-curl",     sets: 3, min: 8,  max: 12, ramp: true },
+        { id: "seated-leg-curl",    sets: 3, min: 8,  max: 12, ramp: true },
         { id: "leg-press-high",     sets: 3, min: 10, max: 15, ramp: true },
         { id: "glute",              sets: 2, min: 10, max: 15 },
         { id: "abductor-adductor",  sets: 2, min: 12, max: 15 },
-        { id: "calf",               sets: 3, min: 10, max: 15 },
+        { id: "calf",               sets: 4, min: 10, max: 15 },
         { id: "leg-extension",      sets: 2, min: 12, max: 15 },
         { id: "rotary-torso",       sets: 2, min: 12, max: 15 }
       ]
@@ -331,6 +353,16 @@ const EVIDENCE = [
     claim: "Jede Muskelgruppe zweimal pro Woche",
     detail: "Bei gleichem Wochenvolumen ist die Aufteilung fast egal — über zwei Einheiten bekommst du die Sätze aber leichter unter und trainierst jeden Satz frischer.",
     source: "Schoenfeld et al. 2019"
+  },
+  {
+    claim: "Übungen in gedehnter Position bevorzugen",
+    detail: "Sitzender Beinbeuger statt liegend, Trizeps über Kopf statt Pushdown, Wadenheben stehend statt sitzend — in direkten Vergleichsstudien wuchs jeweils die gedehnte Variante deutlich stärker.",
+    source: "Maeo et al. 2021 & 2023; Kinoshita et al. 2023"
+  },
+  {
+    claim: "Zwei Winkel je Muskel, nicht zwei Namen",
+    detail: "Schrägdrücken trifft die obere Brust, die die flache Presse auslässt; die Leg Extension trifft den geraden Oberschenkelmuskel, den Beinpressen kaum erreichen; Preacher- und Kabel-Curl treffen verschiedene Abschnitte des Bizeps.",
+    source: "Chaves et al. 2020; Kassiano et al. 2025; Vergleich Kniestrecker 2025"
   },
   {
     claim: "6 bis 15 Wiederholungen, beides funktioniert",

@@ -372,5 +372,33 @@
     tip(88, 42, 70)
   ].join(""));
 
+  ART["overhead-triceps"] = svg([
+    floor(8, 112),
+    path("f", "M98 14v60"),
+    `<circle class="f" cx="98" cy="58" r="4"/>`,
+    stack(88, 30, 15, 24),
+    path("f", "M74 28L94 56"),                 // Kabel von unten zu den Händen
+    head(52, 28),
+    path("b", "M52 34L55 58"),
+    path("b", "M55 58L48 72L47 84"),
+    path("b", "M53 37L63 24L74 29"),           // Oberarm hoch, Unterarm hinter dem Kopf
+    move("M78 22Q88 16 92 24"),
+    tip(93, 26, 60)
+  ].join(""));
+
+  ART["cable-curl-behind"] = svg([
+    floor(8, 112),
+    path("f", "M22 14v60"),
+    `<circle class="f" cx="22" cy="62" r="4"/>`,
+    stack(28, 34, 15, 28),
+    path("f", "M26 64L40 70"),                 // Kabel zur Hand hinter dem Körper
+    head(70, 24),
+    path("b", "M70 30L71 56"),
+    path("b", "M71 56L66 70L65 84"),
+    path("b", "M69 33L56 50L40 68"),           // Arm hinter der Körperlinie
+    move("M46 74Q40 52 58 42"),
+    tip(60, 41, 330)
+  ].join(""));
+
   window.TG_ART = ART;
 })();

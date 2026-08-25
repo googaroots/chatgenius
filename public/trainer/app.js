@@ -581,6 +581,7 @@
                   <span><b>Gerät:</b> ${esc(ex.machine)}</span>
                   <span><b>Einstellung:</b> ${esc(ex.tip)}</span>
                   <span><b>Warum drin:</b> ${esc(ex.why)}</span>
+                  ${ex.alt ? `<span><b>Ersatz:</b> ${esc(ex.alt)}</span>` : ""}
                 </div>
               </details>`;
             }).join("")}

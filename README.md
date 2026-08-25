@@ -150,7 +150,7 @@ npm run dev            # danach: http://localhost:3000/trainer/
 
 | Datei | Inhalt |
 |---|---|
-| `public/trainer/plan.js` | Programm, 23 Technogym-Übungen mit Muskelzuordnung, Aufwärmschema, Belege |
+| `public/trainer/plan.js` | Programm, 24 Technogym-Übungen mit Muskelzuordnung, Begründung, Ersatzübung, Belege |
 | `public/trainer/art.js` | Piktogramme aller Übungen als SVG (eigene Zeichnungen, kein fremdes Bildmaterial) |
 | `public/trainer/app.js` | Logik: Sitzung, Gewichtsberechnung, Progression, Volumenrechnung, Timer, Verlauf |
 | `public/trainer/app.css` | Design-Tokens, dunkles und helles Theme |
@@ -182,8 +182,14 @@ Zuwachs zeigen.
 - **Verlauf** — Gewicht und Wiederholungen je Übung, Bestwerte, bewegte Last,
   Export/Import als JSON.
 
-Der Plan-Tab führt unter „Studienlage in fünf Punkten" die Belege auf (Krieger 2010,
-Pelland et al. 2024/25, Refalo et al. 2023, Schoenfeld et al. 2017 und 2019).
+Der Plan-Tab führt die Belege auf — zur Programm-Struktur (Krieger 2010, Pelland et al.
+2024/25, Refalo et al. 2023, Schoenfeld et al. 2017 und 2019) und zur Übungsauswahl:
+sitzender statt liegender Beinbeuger (Maeo et al. 2021), Trizeps über Kopf statt
+Pushdown (Maeo et al. 2023), Wadenheben stehend statt sitzend (Kinoshita et al. 2023),
+Preacher- und Kabel-Curl für verschiedene Bizeps-Abschnitte (Kassiano et al. 2025),
+Schrägdrücken für die obere Brust (Chaves et al. 2020).
+
+Jede Übung trägt eine Begründung und eine Ersatzübung, falls das Gerät besetzt ist.
 
 Alle Daten liegen ausschließlich im `localStorage` des Browsers; die App sendet nichts
 an den Server. Ältere gespeicherte Stände werden beim Laden migriert, Gewichte und
